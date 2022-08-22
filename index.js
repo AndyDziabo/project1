@@ -16,43 +16,50 @@ const zip = document.querySelector('#zip');
 
 zip.addEventListener('submit', e => {
     e.preventDefault();
-    zipRequest(e.target.zipCode.value);
+    fetchCoordinatesByZip(e.target.zipCode.value);
 });
 
-function zipRequest(zipCode){
-    fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKEY}`)
+// calls to GEO API to get latitude & longitude based on zip code
+function fetchCoordinatesByZip (zipCode) {
+    fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY_1}`)
     .then(res => {
         if (res.ok) {return res.json()}
         throw new Error('Not a valid zip code');
     })
-    .then(data => {
-        latLon(data);
-        if (repeatZip === false) {
-            saveLocations(data);
-            popDropDown(data);
-        } else {
-            repeatZip = false;
-            console.log('Zip already exists');
-        }
+    .then(geoData => {
+        fetchWeatherByLatLon(geoData.lat, geoData.lon);
+        fetchForecastByLatLon(geoData.lat, geoData.lon);
+        // if (repeatZip === false) {
+        //     saveLocations(data);
+        //     popDropDown(data);
+        // } else {
+        //     repeatZip = false;
+        //     console.log('Zip already exists');
+        // }
     })
     .catch(error => alert(error));
 }
 
 //Takes the longitude and lattitude and calls a GET request to get the 5 day forecast.(still needs to call a rendering 
 //function to put display the data in the days menu, and the details section).
-function latLon(data){
-    lat = data.lat;
-    lon = data.lon;
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKEY}&units=imperial`)
+function fetchWeatherByLatLon (lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_3}`)
     .then(res => res.json())
-    .then(data => formatData(data))
+    .then(weatherData => displayDetails(weatherData))
     .catch(error => console.error('Error'));
 }
 
-function formatData(data) {
-    let newData = data;
-    console.log(newData);
-    displayDetails(newData);
+function fetchForecastByLatLon (lat, lon) {
+    fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY_3}`)
+    .then(res => res.json())
+    .then(forecastData => storeForecast(forecastData))
+    .catch(error => console.log(error));
+}
+
+function storeForecast(forecastData) {
+    let forecast = [];
+    console.log(forecastData);
+    console.log(forecast);
 }
 
 
@@ -98,7 +105,7 @@ localDropDown.addEventListener('change', e => selectFav(e));
 function selectFav(e){
     if(e.target.value !== ""){
         repeatZip = true;
-        zipRequest(e.target.value);
+        fetchCoordinatesByZip(e.target.value);
     }else{
         console.log('blank selected');
     }
