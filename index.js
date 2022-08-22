@@ -22,22 +22,20 @@ zip.addEventListener('submit', e => {
 function zipRequest(zipCode){
     fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKEY}`)
     .then(res => {
-        if(res.ok){
-            return res.json();
-        }
+        if (res.ok) {return res.json()}
         throw new Error('Not a valid zip code');
     })
     .then(data => {
         latLon(data);
-        if(repeatZip === false){
+        if (repeatZip === false) {
             saveLocations(data);
             popDropDown(data);
-        }else{
+        } else {
             repeatZip = false;
             console.log('Zip already exists');
         }
     })
-    .catch(error => alert('Not a valid zip code'));
+    .catch(error => alert(error));
 }
 
 //Takes the longitude and lattitude and calls a GET request to get the 5 day forecast.(still needs to call a rendering 
