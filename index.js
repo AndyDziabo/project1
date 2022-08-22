@@ -109,13 +109,13 @@ function fetchCoordinatesByZip (zipCode) {
 
 // gets current weather using latitude & longitude
 function fetchWeatherByLatLon (lat, lon) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
     .then(res => res.json());
 }
 
 // gets forecasted weather using latitude & longitude
 function fetchForecastByLatLon (lat, lon) {
-    return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
+    return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
     .then(res => res.json());
 }
 
