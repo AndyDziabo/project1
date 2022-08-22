@@ -7,6 +7,70 @@
       "lon": -78.5861,
       "country": "US",
       "id": 1
+    },
+    {
+      "zip": "90210",
+      "name": "Beverly Hills",
+      "lat": 34.0901,
+      "lon": -118.4065,
+      "country": "US",
+      "id": 2
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 3
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 4
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 5
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 6
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 7
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 8
+    },
+    {
+      "zip": "16630",
+      "name": "Cresson",
+      "lat": 40.4608,
+      "lon": -78.5861,
+      "country": "US",
+      "id": 9
     }
   ]
 }

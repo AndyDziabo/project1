@@ -18,17 +18,19 @@ body {
 }
 
 #logo {
+    display: block;
     width: 100%;
-    min-height: 50px;
+    min-height: 800px;
     background: rgb(54, 69, 88);
-    line-height: 50px;
+    line-height: 800px;
     text-align: center;
     margin-bottom: 5px;
 }
 
 #main {
+    display: none;
     width: 100%;
-    min-height: 500px;
+    min-height: 1000px;
     background-color: rgb(54, 69, 88);
 }
 
@@ -40,52 +42,72 @@ body {
 
 #left {
     border-radius: 20px;
-    width: 20%;
-    min-height: 500px;
+    width: 70%;
+    min-height: 700px;
     background-color: rgb(167, 167, 167);
     float: left;
 }
 
+#rightTop {
+    min-height: 70px;
+}
+
 #daysMenu {
     list-style-type: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: rgb(167, 167, 167);
+    padding: 30px 0px;
 }
 
 .days {
-    border-radius: 20px;
+    border-radius: 6px;
     min-height: 80px;
     width: 80%;
     background-color: beige;
     line-height: 80px;
     text-align: center;
-    margin: 16px 25px;
+    margin: 16px 25px 16px 1px;
     color: rgb(50, 50, 50);
     cursor: pointer;
 }
 
 #right {
-    width: 78%;
-    min-height: 500px;
+    display: none;
+    width: 30%;
+    min-height: 700px;
     background-color: rgb(54, 69, 88);
-    float: right;
+    float: left;
+}
+
+#savedLocation {
+    min-height: 50px;
+    line-height: 50px;
+    width: 100%;
+    text-align: center;
 }
 
 #details {
     border-radius: 20px;
-    width: 100%;
-    min-height: 375px;
+    width: 85%;
+    min-height: 600px;
     background-color: rgb(42, 129, 250);
-    margin-bottom: 10px;
+
+    margin: auto;
     text-align: center;
-    line-height: 375px;
+    line-height: 600px;
 }
 
 #location {
-    border-radius: 20px;
     width: 100%;
-    min-height: 115px;
-    background-color: rgb(127, 160, 184);
-    text-align: left;
-    line-height: 40px;
-    padding-top: 10px;
-    padding-left: 60px;
+    min-height: 800px;
+    line-height: 800px;
+    text-align: center;
+}
+
+#toggleForecast {
+    width: 100%;
+    min-height: 50px;
+    line-height: 50px;
+    text-align: center;
 }
