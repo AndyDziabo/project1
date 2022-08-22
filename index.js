@@ -1,5 +1,5 @@
 //
-//Global variable declaration
+// GLOBAL VARIABLE DECLARATION
 //
 // let zipCodeEntry = 00000;
 // let lat = 0;
@@ -9,9 +9,9 @@ let FORECAST_ARY = [
     [], [], [], [], [], []  // forecast for today + 5 days
 ];
 
-// HTML elements
+// HTML ELEMENTS
 const forecastMenu = document.querySelector('#daysMenu');
-
+const zip = document.querySelector('#zip');
 
 
 ////////////////////////
@@ -20,57 +20,66 @@ const forecastMenu = document.querySelector('#daysMenu');
 
 //Handles zip code form - Takes a zip code and returns the longitude and lattitude. Calls 'storeFavorites' to store 
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
-const zip = document.querySelector('#zip');
-
 zip.addEventListener('submit', e => {
     e.preventDefault();
-    fetchCoordinatesByZip(e.target.zipCode.value)
+    let inputZip = e.target.zipCode.value;
+    fetchCoordinatesByZip(inputZip)
     .then (geoData => {
-        fetchWeatherByLatLon(geoData.lat, geoData.lon)
-            .then(weatherData => displayDetails(weatherData));
-        fetchForecastByLatLon(geoData.lat, geoData.lon)
-            .then(forecastData => {
-                storeForecast(forecastData);
-                renderForecastMenu();
-            });
+        fetchAndRender(geoData);
+        saveDataForZip(inputZip, geoData);
     })
     .catch (error => console.log(error));
 });
 
-// calls to GEO API to get latitude & longitude based on zip code
+function fetchAndRender (geoData) {
+    fetchWeatherByLatLon(geoData.lat, geoData.lon)
+        .then(weatherData => displayDetails(weatherData));
+    fetchForecastByLatLon(geoData.lat, geoData.lon)
+        .then(forecastData => {
+            storeForecast(forecastData);
+            renderForecastMenu();
+        });
+}
+
+function getSavedGeoData (zipCode) {
+    return fetch(`http://localhost:3000/zipcodes/${zipCode}`)
+    .then (response => response.json())
+}
+
+function saveDataForZip (zipCode, data) {
+    if (repeatZip === false) {
+        saveLocations(data);
+        popDropDown(data);
+    } else {
+        repeatZip = false;
+        console.log('Zip already exists');
+    }
+}
+
+
+// OPEN WEATHER API CALLS
+
+// gets latitude & longitude using zip code
 function fetchCoordinatesByZip (zipCode) {
     return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
     .then(res => {
         if (res.ok) {return res.json()}
         throw new Error('Not a valid zip code');
-    })
-    // .then(geoData => {
-    //     fetchWeatherByLatLon(geoData.lat, geoData.lon);
-    //     fetchForecastByLatLon(geoData.lat, geoData.lon);
-    //     // if (repeatZip === false) {
-    //     //     saveLocations(data);
-    //     //     popDropDown(data);
-    //     // } else {
-    //     //     repeatZip = false;
-    //     //     console.log('Zip already exists');
-    //     // }
-    // })
-    // .catch(error => alert(error));
+    });
 }
 
+// gets current weather using latitude & longitude
 function fetchWeatherByLatLon (lat, lon) {
     return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
-    .then(res => res.json())
-    // .then(weatherData => displayDetails(weatherData))
-    // .catch(error => console.error('Error'));
+    .then(res => res.json());
 }
 
+// gets forecasted weather using latitude & longitude
 function fetchForecastByLatLon (lat, lon) {
     return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
-    .then(res => res.json())
-    // .then(forecastData => storeForecast(forecastData))
-    // .catch(error => console.log(error));
+    .then(res => res.json());
 }
+
 
 
 // STORE FORECAST DATA INTO GLOBAL ARRAY
@@ -115,7 +124,7 @@ function renderForecastMenu () {
                 break;
         }
         forecastMenu.appendChild(nextDay);
-    })
+    });
 }
 
 
@@ -130,7 +139,7 @@ function renderForecastMenu () {
 //populate the drop down list. 
 fetch('http://localhost:3000/zipcodes')
 .then(res => res.json())
-.then(data => data.forEach(i => popDropDown(i)));
+.then(data => data.forEach(zip => popDropDown(zip.geoData)));
 
 //Populates the favorites drop-down menu every time a zip code is entered. 
 function popDropDown(data){
@@ -141,17 +150,20 @@ function popDropDown(data){
 }
 
 //Stores the location's data in the db.json file to persist the list, and be able to recall the already searched zipcodes.
-function saveLocations(data){
-fetch('http://localhost:3000/zipcodes', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-    body: JSON.stringify(data)
-})
-.then(res => res.json())
-.then(data => console.log(data));
+function saveLocations (data) {
+    const zipCodeGeoData = {
+        id: data.zip,
+        geoData: data
+    }
+    fetch('http://localhost:3000/zipcodes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(zipCodeGeoData)
+    })
+    .then(res => res.json())
 }
 
 //Handles the drop-down menu of previously searched zip codes. (still needs to call a renderingfunction to put display 
@@ -159,10 +171,15 @@ fetch('http://localhost:3000/zipcodes', {
 const localDropDown = document.querySelector('#favLocation');
 localDropDown.addEventListener('change', e => selectFav(e));
 function selectFav(e){
-    if(e.target.value !== ""){
+    const selection = e.target.value;
+    if (selection !== "") {
         repeatZip = true;
-        fetchCoordinatesByZip(e.target.value);
-    }else{
+        getSavedGeoData(selection)
+        .then(zipData => {
+            fetchAndRender(zipData.geoData);
+        })
+        .catch(error => console.log(error));
+    } else {
         console.log('blank selected');
     }
 }
