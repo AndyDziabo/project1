@@ -9,34 +9,41 @@
     <body>
         <div id="wrapper">
             <div id="logo">
-                <h1>Weather Forecast</h1>
-            </div>
-
-            <div id="main" class="clearfix">
-                <div id="left">
-                    <ul id="daysMenu"></ul>
+                <div id="location">
+                    <form id="zip">
+                        <label for="zipCode">Zip Code:</label>
+                        <input type="text" id="zipCode" name="zipCode">
+                        <input type="submit" value="Enter">
+                    </form>
                 </div>
-                <div id="right">
+            </div>
+            <div id="main">
+                <div id="left">
+                    <div id="savedLocation">
+                        <label for="favLocation"></label>
+                            <select name="favLocation" id="favLocation">
+                                <option value="">--Please choose a location--</option>
+                            </select>
+                    </div>
                     <div id="details">
                         Details
                     </div>
-                    <div id="location">
-                        <form id="zip">
-                            <label for="zipCode">Zip Code:</label>
-                            <input type="text" id="zipCode" name="zipCode">
-                            <input type="submit" value="Enter">
-                        </form>
-
-                        <label for="favLocation">Choose a Location:</label>
-                        <select name="favLocation" id="favLocation">
-                            <option value="">--Please choose an option--</option>
-                        </select>
+                    <div id="toggleForecast">
+                        <button id="showForecast">Show Forecast</button>
                     </div>
                 </div>
+                <div id="right">
+                    <div id="rightTop"></div>
+                    <ul id="daysMenu">
+                        <li class="days">Day 1</li>
+                        <li class="days">Day 2</li>
+                        <li class="days">Day 3</li>
+                        <li class="days">Day 4</li>
+                        <li class="days">Day 5</li>
+                    </ul>
+                    <div id="rightBottom"></div>
+                </div>
             </div>
-
         </div>
-
-       
     </body>
 </html>

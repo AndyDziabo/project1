@@ -5,6 +5,7 @@
 // let lat = 0;
 // let lon = 0;
 let repeatZip = false;
+
 let FORECAST_ARY = [
     [], [], [], [], [], []  // forecast for today + 5 days
 ];
@@ -12,6 +13,41 @@ let FORECAST_ARY = [
 // HTML ELEMENTS
 const forecastMenu = document.querySelector('#daysMenu');
 const zip = document.querySelector('#zip');
+
+document.getElementById('right').style.display = 'none';
+document.getElementById('main').style.display = 'none';
+
+/////////////////////////
+//HTML Element Toggling//
+////////////////////////
+
+//Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
+//form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
+//of the side menu that contains the forecast. It is controlled by the "Show Forecast" button.
+const toggle = document.querySelector('#toggleForecast');
+toggle.addEventListener('click', e => toggleMenu());
+
+function toggleMenu(){
+    let d = document.getElementById('right');
+    if(d.style.display === 'none'){
+        d.style.display = 'block';
+    }else{
+        d.style.display = 'none';
+    }
+}
+
+function toggleMain(){
+    let z = document.getElementById('logo');
+    let m = document.getElementById('main');
+    console.log(m.style.display);
+    if(m.style.display === 'none'){
+        m.style.display = 'block';
+        z.style.display = 'none'
+    }else{
+        m.style.display = 'none';
+        z.style.display = 'block';
+    }
+}
 
 
 ////////////////////////
@@ -23,8 +59,10 @@ const zip = document.querySelector('#zip');
 zip.addEventListener('submit', e => {
     e.preventDefault();
     let inputZip = e.target.zipCode.value;
+    console.log(inputZip);
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
+        toggleMain();
         fetchAndRender(geoData);
         saveDataForZip(inputZip, geoData);
     })
@@ -65,7 +103,8 @@ function fetchCoordinatesByZip (zipCode) {
     .then(res => {
         if (res.ok) {return res.json()}
         throw new Error('Not a valid zip code');
-    });
+    })
+    .catch (error => console.log(error));
 }
 
 // gets current weather using latitude & longitude
