@@ -29,6 +29,26 @@
         "lon": -77.0177,
         "country": "US"
       }
+    },
+    {
+      "id": "35578",
+      "geoData": {
+        "zip": "35578",
+        "name": "Walker County",
+        "lat": 33.9299,
+        "lon": -87.4324,
+        "country": "US"
+      }
+    },
+    {
+      "id": "10001",
+      "geoData": {
+        "zip": "10001",
+        "name": "New York",
+        "lat": 40.7484,
+        "lon": -73.9967,
+        "country": "US"
+      }
     }
   ]
 }

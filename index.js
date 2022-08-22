@@ -10,6 +10,8 @@ let FORECAST_ARY = [
     [], [], [], [], [], []  // forecast for today + 5 days
 ];
 
+let city;
+
 // HTML ELEMENTS
 const forecastMenu = document.querySelector('#daysMenu');
 const zip = document.querySelector('#zip');
@@ -71,7 +73,9 @@ zip.addEventListener('submit', e => {
 
 function fetchAndRender (geoData) {
     fetchWeatherByLatLon(geoData.lat, geoData.lon)
-        .then(weatherData => displayDetails(weatherData));
+        .then(weatherData => {
+            city = weatherData.name;
+            displayDetails(weatherData)});
     fetchForecastByLatLon(geoData.lat, geoData.lon)
         .then(forecastData => {
             storeForecast(forecastData);
@@ -101,7 +105,11 @@ function saveDataForZip (zipCode, data) {
 function fetchCoordinatesByZip (zipCode) {
     return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
     .then(res => {
-        if (res.ok) {return res.json()}
+        if (res.ok) {
+            //city = res
+            return res.json()
+        }
+
         throw new Error('Not a valid zip code');
     })
     .catch (error => console.log(error));
@@ -232,14 +240,36 @@ function selectFav(e){
 ///////////////////////////////////////////////////////
 
 //display the details of the selected day
-const details = document.querySelector('#details');
+const details = document.querySelector('#details ul');
 function displayDetails(data){
+    //HTML Elements
+    details.innerHTML = ''
+    const cityName = document.createElement('li')
+    const windSpeed = document.createElement('li')
+    const temperature = document.createElement('li')
+    const weatherDescription = document.createElement('li')
+    const feelsLike = document.createElement('li')
+    const highTemp = document.createElement('li')
+    const lowTemp = document.createElement('li')
+    const humidity = document.createElement('li')
+
+    humidity.textContent = `Humidity: ${data.main.humidity}%`
+    highTemp.textContent = `High: ${data.main.temp_max} F`
+    lowTemp.textContent = `Low: ${data.main.temp_min} F`
+    feelsLike.textContent = `Feels Like: ${data.main.feels_like} F`
+    cityName.textContent = city
+    weatherDescription.textContent = data.weather[0].description
+    temperature.textContent = `Temperature: ${data.main.temp} F`
+    windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
+    details.append(cityName, humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature, weatherDescription);
     console.log(data);
-}
+};
 
 //Select day from day menu
 
 forecastMenu.addEventListener('click', e => {
+
     const dayIndex = e.target.value;
-    displayDetails(FORECAST_ARY[dayIndex]);
+    displayDetails(FORECAST_ARY[dayIndex][1])
+    console.log(FORECAST_ARY[dayIndex]);
 });

@@ -95,7 +95,13 @@ body {
 
     margin: auto;
     text-align: center;
-    line-height: 600px;
+    align-items: center;
+    display: flex;
+    /* line-height: 600px; */
+}
+
+#details ul {
+    list-style-type: none;
 }
 
 #location {
