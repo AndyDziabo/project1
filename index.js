@@ -2,9 +2,12 @@
 //Global variable declaration
 //
 let zipCodeEntry = 00000;
-let lat = 0;
-let lon = 0;
+// let lat = 0;
+// let lon = 0;
 let repeatZip = false;
+let FORECAST_ARY = [
+    [], [], [], [], [], []  // forecast for today + 5 days
+];
 
 ////////////////////////
 //Zip code submit form//
@@ -57,9 +60,16 @@ function fetchForecastByLatLon (lat, lon) {
 }
 
 function storeForecast(forecastData) {
-    let forecast = [];
-    console.log(forecastData);
-    console.log(forecast);
+    FORECAST_ARY = [
+        [], [], [], [], [], []  // clear previous entries
+    ];
+    const today = new Date().getDay();
+    forecastData.list.forEach((entry) => {  // store forecast by day
+        const entryDay = new Date(entry.dt * 1000).getDay();
+        let index = entryDay - today;
+        if (today > entryDay) {index += 7}
+        FORECAST_ARY[index].push(entry);
+    });
 }
 
 
