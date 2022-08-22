@@ -102,6 +102,7 @@ function renderForecastMenu () {
     forecastMenu.innerHTML = '';    // clear any existing
     FORECAST_ARY.forEach((day, index) => {
         const nextDay = document.createElement('li');
+        nextDay.classList.add('days');
         switch (index) {
             case 0:
                 nextDay.textContent = 'today';
