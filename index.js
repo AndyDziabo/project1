@@ -6,10 +6,6 @@ let lat = 0;
 let lon = 0;
 let repeatZip = false;
 
-
-
-
-
 ////////////////////////
 //Zip code submit form//
 ////////////////////////
@@ -23,8 +19,8 @@ zip.addEventListener('submit', e => {
     zipRequest(e.target.zipCode.value);
 });
 
-function zipRequest(e){
-    fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${e},US&appid=${apiKEY}`)
+function zipRequest(zipCode){
+    fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKEY}`)
     .then(res => {
         if(res.ok){
             return res.json();
@@ -51,12 +47,14 @@ function latLon(data){
     lon = data.lon;
     fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKEY}&units=imperial`)
     .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        
-    })
+    .then(data => formatData(data))
     .catch(error => console.error('Error'));
+}
 
+function formatData(data) {
+    let newData = data;
+    console.log(newData);
+    displayDetails(newData);
 }
 
 
@@ -118,7 +116,7 @@ function selectFav(e){
 //display the details of the selected day
 const details = document.querySelector('#details');
 function displayDetails(data){
-
+    console.log(data);
 }
 
 //Select day from day menu
