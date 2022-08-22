@@ -1,13 +1,18 @@
 //
 //Global variable declaration
 //
-let zipCodeEntry = 00000;
+// let zipCodeEntry = 00000;
 // let lat = 0;
 // let lon = 0;
 let repeatZip = false;
 let FORECAST_ARY = [
     [], [], [], [], [], []  // forecast for today + 5 days
 ];
+
+// HTML elements
+const forecastMenu = document.querySelector('#daysMenu');
+
+
 
 ////////////////////////
 //Zip code submit form//
@@ -19,57 +24,97 @@ const zip = document.querySelector('#zip');
 
 zip.addEventListener('submit', e => {
     e.preventDefault();
-    fetchCoordinatesByZip(e.target.zipCode.value);
+    fetchCoordinatesByZip(e.target.zipCode.value)
+    .then (geoData => {
+        fetchWeatherByLatLon(geoData.lat, geoData.lon)
+            .then(weatherData => displayDetails(weatherData));
+        fetchForecastByLatLon(geoData.lat, geoData.lon)
+            .then(forecastData => {
+                storeForecast(forecastData);
+                renderForecastMenu();
+            });
+    })
+    .catch (error => console.log(error));
 });
 
 // calls to GEO API to get latitude & longitude based on zip code
 function fetchCoordinatesByZip (zipCode) {
-    fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY_1}`)
+    return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
     .then(res => {
         if (res.ok) {return res.json()}
         throw new Error('Not a valid zip code');
     })
-    .then(geoData => {
-        fetchWeatherByLatLon(geoData.lat, geoData.lon);
-        fetchForecastByLatLon(geoData.lat, geoData.lon);
-        // if (repeatZip === false) {
-        //     saveLocations(data);
-        //     popDropDown(data);
-        // } else {
-        //     repeatZip = false;
-        //     console.log('Zip already exists');
-        // }
-    })
-    .catch(error => alert(error));
+    // .then(geoData => {
+    //     fetchWeatherByLatLon(geoData.lat, geoData.lon);
+    //     fetchForecastByLatLon(geoData.lat, geoData.lon);
+    //     // if (repeatZip === false) {
+    //     //     saveLocations(data);
+    //     //     popDropDown(data);
+    //     // } else {
+    //     //     repeatZip = false;
+    //     //     console.log('Zip already exists');
+    //     // }
+    // })
+    // .catch(error => alert(error));
 }
 
-//Takes the longitude and lattitude and calls a GET request to get the 5 day forecast.(still needs to call a rendering 
-//function to put display the data in the days menu, and the details section).
 function fetchWeatherByLatLon (lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_3}`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
     .then(res => res.json())
-    .then(weatherData => displayDetails(weatherData))
-    .catch(error => console.error('Error'));
+    // .then(weatherData => displayDetails(weatherData))
+    // .catch(error => console.error('Error'));
 }
 
 function fetchForecastByLatLon (lat, lon) {
-    fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY_3}`)
+    return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
     .then(res => res.json())
-    .then(forecastData => storeForecast(forecastData))
-    .catch(error => console.log(error));
+    // .then(forecastData => storeForecast(forecastData))
+    // .catch(error => console.log(error));
 }
 
-function storeForecast(forecastData) {
+
+// STORE FORECAST DATA INTO GLOBAL ARRAY
+
+function storeForecast (forecastData) {
     FORECAST_ARY = [
         [], [], [], [], [], []  // clear previous entries
     ];
     const today = new Date().getDay();
-    forecastData.list.forEach((entry) => {  // store forecast by day
-        const entryDay = new Date(entry.dt * 1000).getDay();
+    forecastData.list.forEach((entry) => {
+        // store forecast by days from today
+        const entryDate = new Date(entry.dt * 1000);
+        const entryDay = entryDate.getDay();
         let index = entryDay - today;
         if (today > entryDay) {index += 7}
+        // set index 0 to day of week
+        if (FORECAST_ARY[index].length === 0) {
+            const entryDayOfWeek = entryDate.toLocaleString('en-US', {weekday: 'long'});
+            FORECAST_ARY[index].push(entryDayOfWeek);
+        }
+        // push forecast data
         FORECAST_ARY[index].push(entry);
     });
+}
+
+// RENDER FORECAST MENU WITH DATA
+
+function renderForecastMenu () {
+    forecastMenu.innerHTML = '';    // clear any existing
+    FORECAST_ARY.forEach((day, index) => {
+        const nextDay = document.createElement('li');
+        switch (index) {
+            case 0:
+                nextDay.textContent = 'today';
+                break;
+            case 1:
+                nextDay.textContent = 'tomorrow';
+                break;
+            default:
+                nextDay.textContent = day[0];
+                break;
+        }
+        forecastMenu.appendChild(nextDay);
+    })
 }
 
 
@@ -135,11 +180,5 @@ function displayDetails(data){
 }
 
 //Select day from day menu
-const daysMenu = document.querySelector('#daysMenu');
-daysMenu.addEventListener('click', e => console.log(e.target));
 
-
-
-
-
-
+forecastMenu.addEventListener('click', e => console.log(e.target));
