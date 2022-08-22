@@ -5,6 +5,40 @@ let zipCodeEntry = 00000;
 let lat = 0;
 let lon = 0;
 let repeatZip = false;
+document.getElementById('right').style.display = 'none';
+document.getElementById('main').style.display = 'none';
+
+/////////////////////////
+//HTML Element Toggling//
+////////////////////////
+
+//Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
+//form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
+//of the side menu that contains the forecast. It is controlled by the "Show Forecast" button.
+const toggle = document.querySelector('#toggleForecast');
+toggle.addEventListener('click', e => toggleMenu());
+
+function toggleMenu(){
+    let d = document.getElementById('right');
+    if(d.style.display === 'none'){
+        d.style.display = 'block';
+    }else{
+        d.style.display = 'none';
+    }
+}
+
+function toggleMain(){
+    let z = document.getElementById('logo');
+    let m = document.getElementById('main');
+    console.log(m.style.display);
+    if(m.style.display === 'none'){
+        m.style.display = 'block';
+        z.style.display = 'none'
+    }else{
+        m.style.display = 'none';
+        z.style.display = 'block';
+    }
+}
 
 ////////////////////////
 //Zip code submit form//
@@ -28,6 +62,7 @@ function zipRequest(zipCode){
         throw new Error('Not a valid zip code');
     })
     .then(data => {
+        toggleMain();
         latLon(data);
         if(repeatZip === false){
             saveLocations(data);
