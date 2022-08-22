@@ -112,6 +112,7 @@ function renderForecastMenu () {
     FORECAST_ARY.forEach((day, index) => {
         const nextDay = document.createElement('li');
         nextDay.classList.add('days');
+        nextDay.value = index;
         switch (index) {
             case 0:
                 nextDay.textContent = 'today';
@@ -199,4 +200,7 @@ function displayDetails(data){
 
 //Select day from day menu
 
-forecastMenu.addEventListener('click', e => console.log(e.target));
+forecastMenu.addEventListener('click', e => {
+    const dayIndex = e.target.value;
+    displayDetails(FORECAST_ARY[dayIndex]);
+});

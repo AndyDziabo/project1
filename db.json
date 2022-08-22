@@ -1,20 +1,24 @@
 {
   "zipcodes": [
     {
-      "zip": "16630",
-      "name": "Cresson",
-      "lat": 40.4608,
-      "lon": -78.5861,
-      "country": "US",
-      "id": 1
+      "id": "20009",
+      "geoData": {
+        "zip": "20009",
+        "name": "Washington",
+        "lat": 38.9202,
+        "lon": -77.0375,
+        "country": "US"
+      }
     },
     {
-      "zip": "20009",
-      "name": "Washington",
-      "lat": 38.9202,
-      "lon": -77.0375,
-      "country": "US",
-      "id": 2
+      "id": "20010",
+      "geoData": {
+        "zip": "20010",
+        "name": "Washington",
+        "lat": 38.9327,
+        "lon": -77.0322,
+        "country": "US"
+      }
     }
   ]
 }
