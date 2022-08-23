@@ -82,7 +82,7 @@ body {
     padding: 10px 0px;                      
 }
 
-.days {
+.days, .location {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     min-height: 80px;
