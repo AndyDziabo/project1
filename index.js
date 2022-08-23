@@ -1,9 +1,6 @@
-//
+
 // GLOBAL VARIABLE DECLARATION
-//
-// let zipCodeEntry = 00000;
-// let lat = 0;
-// let lon = 0;
+
 let repeatZip = false;
 
 let FORECAST_ARY = [

@@ -1,16 +1,6 @@
 {
   "zipcodes": [
     {
-      "id": "35578",
-      "geoData": {
-        "zip": "35578",
-        "name": "Walker County",
-        "lat": 33.9299,
-        "lon": -87.4324,
-        "country": "US"
-      }
-    },
-    {
       "id": "10001",
       "geoData": {
         "zip": "10001",
@@ -37,6 +27,26 @@
         "name": "Beverly Hills",
         "lat": 34.0901,
         "lon": -118.4065,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35578",
+      "geoData": {
+        "zip": "35578",
+        "name": "Walker County",
+        "lat": 33.9299,
+        "lon": -87.4324,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35504",
+      "geoData": {
+        "zip": "35504",
+        "name": "Walker County",
+        "lat": 33.8927,
+        "lon": -87.1667,
         "country": "US"
       }
     }
