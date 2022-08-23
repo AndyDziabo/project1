@@ -18,13 +18,22 @@
                     </form>
                 </div>
             </div>
-            <div id="main">
-                <div id="left">
-                    <div id="savedLocation">
-                        <label for="favLocation"></label>
+            <div id="main" class="row">
+                <div id="left" class="column">
+                    <div id="leftTop"></div>
+                    <ul id="zipMenu">
+                        <div id="savedLocation">
+                            <label for="favLocation"></label>
                             <select name="favLocation" id="favLocation">
                                 <option value="">--Please choose a location--</option>
                             </select>
+                        </div>
+                    </ul>
+                    <div id="leftBottom"></div>
+                </div>
+                <div id="center" class="column">
+                    <div id="toggleZipcode">
+                        <button id="showZipcode">Select Zip Code</button>
                     </div>
                     <div id="details">
                         <ul>
@@ -35,7 +44,7 @@
                         <button id="showForecast">Show Forecast</button>
                     </div>
                 </div>
-                <div id="right">
+                <div id="right" class="column">
                     <div id="rightTop"></div>
                     <ul id="daysMenu"></ul>
                     <div id="rightBottom"></div>
