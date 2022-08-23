@@ -70,21 +70,17 @@ zip.addEventListener('submit', e => {
     
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
-        // saveDataForZip(inputZip, geoData);
         toggleMain();
         displayZip(inputZip);
         fetchAndRender(geoData);
         fetchSavedLocations()
         .then(savedZips => {
             if (!savedZips.find(entry => entry.id === inputZip)) {
-                console.log('new entry');
                 saveLocation(geoData);
                 savedZips.push({
                     id: inputZip,
                     geoData: geoData
                 });
-            } else {
-                console.log('existing entry');
             }
             renderLocationMenu(savedZips);
         });
@@ -263,13 +259,13 @@ const detailsCity = document.getElementById('details-city-name');
 const detailsIcon = document.getElementById('details-weather-icon');
 function displayDetails(data){
     // clear any existing
-    detailsList.innerHTML = ''
+    detailsList.innerHTML = '';
     detailsCity.innerHTML = '';
     detailsIcon.innerHTML = '';
     //HTML Elements
-    changeBackground(data.weather[0].id)                   //new
-    const iconImg = document.createElement('p')           //new
-    const img = document.createElement('img')              //new
+    changeBackground(data.weather[0].id)
+    const iconImg = document.createElement('p')
+    const img = document.createElement('img')
     const windSpeed = document.createElement('li')
     const temperature = document.createElement('li')
     const weatherDescription = document.createElement('p')
