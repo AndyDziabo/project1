@@ -71,7 +71,7 @@ zip.addEventListener('submit', e => {
     e.preventDefault();
 
     let inputZip = e.target.zipCode.value;
-    // displayZip(inputZip);
+    displayZip(inputZip);
 
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
@@ -83,12 +83,9 @@ zip.addEventListener('submit', e => {
 });
 
 function displayZip (zipCode) {
-    locationList.innerHTML = '';
-    const newLine = document.createElement('li');
-    newLine.textContent = zipCode;
-    locationList.append(newLine);
-    newLine.addEventListener('click', showHideZips);
-    initSavedZips();
+    locationBtnDiv.innerHTML = '';
+    locationBtnDiv.textContent = zipCode;
+    // initSavedZips();
 }
 
 function initSavedZips () {
@@ -118,12 +115,6 @@ function initSavedZips () {
             locationList.append(newLine);
         })
     });
-}
-
-function showHideZips () {
-    const savedZips = locationList.querySelectorAll('li');
-    sortZips(savedZips);
-    savedZips.forEach(location => toggleDisplay(location));
 }
 
 function sortZips (zipList) {
