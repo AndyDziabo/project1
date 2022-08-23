@@ -244,6 +244,9 @@ const details = document.querySelector('#details ul');
 function displayDetails(data){
     //HTML Elements
     details.innerHTML = ''
+    changeBackground(data.weather[0].id)                   //new
+    const iconImg = document.createElement('li')           //new
+    const img = document.createElement('img')              //new
     const cityName = document.createElement('li')
     const windSpeed = document.createElement('li')
     const temperature = document.createElement('li')
@@ -253,6 +256,8 @@ function displayDetails(data){
     const lowTemp = document.createElement('li')
     const humidity = document.createElement('li')
 
+    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` //new
+    iconImg.append(img)                                                          //new
     humidity.textContent = `Humidity: ${data.main.humidity}%`
     highTemp.textContent = `High: ${data.main.temp_max} F`
     lowTemp.textContent = `Low: ${data.main.temp_min} F`
@@ -261,7 +266,7 @@ function displayDetails(data){
     weatherDescription.textContent = data.weather[0].description
     temperature.textContent = `Temperature: ${data.main.temp} F`
     windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
-    details.append(cityName, humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature, weatherDescription);
+    details.append(iconImg,cityName, humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature, weatherDescription); //new added iconImg
     console.log(data);
 };
 
@@ -273,3 +278,35 @@ forecastMenu.addEventListener('click', e => {
     displayDetails(FORECAST_ARY[dayIndex][1])
     console.log(FORECAST_ARY[dayIndex]);
 });
+
+//Changes the backgound image of the details based on the weather description     //new
+function changeBackground(id){
+    let img;
+    let num = String(id).charAt(0);
+    num = Number(num);
+    if(id === 800){
+        img = 'sunnySky.png';
+    }else{
+        switch(num){
+            case 2:
+                img = 'thunderstorm.jpg';
+                break;
+            case 3:
+                img = 'drizzle.jpg';
+                break;
+            case 5:
+                img = 'rain.jpg';
+                break;
+            case 6:
+                img = 'snow.jpg';
+                break;
+            case 7:
+                img = 'hazy.jpg';
+                break;
+            case 8:
+                img = 'clouds.jpg';
+                break;
+        }
+    }
+    document.getElementById('details').style.backgroundImage = `url("img/${img}")`;
+}
