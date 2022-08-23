@@ -16,8 +16,9 @@ let city;
 const forecastMenu = document.querySelector('#daysMenu');
 const zip = document.querySelector('#zip');
 
-document.getElementById('right').style.display = 'none';
-document.getElementById('main').style.display = 'none';
+document.getElementById('right').style.visibility = 'hidden';
+document.getElementById('left').style.visibility = 'hidden';
+document.getElementById('main').style.display = 'hidden';
 
 /////////////////////////
 //HTML Element Toggling//
@@ -26,15 +27,27 @@ document.getElementById('main').style.display = 'none';
 //Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
 //form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
 //of the side menu that contains the forecast. It is controlled by the "Show Forecast" button.
-const toggle = document.querySelector('#toggleForecast');
-toggle.addEventListener('click', e => toggleMenu());
+const toggleRight = document.querySelector('#toggleForecast');
+toggleRight.addEventListener('click', e => toggleMenu());
 
 function toggleMenu(){
     let d = document.getElementById('right');
-    if(d.style.display === 'none'){
-        d.style.display = 'block';
+    if(d.style.visibility === 'hidden'){
+        d.style.visibility = 'visible';
     }else{
-        d.style.display = 'none';
+        d.style.visibility = 'hidden';
+    }
+}
+
+const toggleLeft = document.querySelector('#toggleZipcode');
+toggleLeft.addEventListener('click', e => toggleZip());
+
+function toggleZip(){
+    let d = document.getElementById('left');
+    if(d.style.visibility === 'hidden'){
+        d.style.visibility = 'visible';
+    }else{
+        d.style.visibility = 'hidden';
     }
 }
 
@@ -194,7 +207,7 @@ function popDropDown(data){
     const opt = document.createElement('option');
     opt.value = data.zip;
     opt.textContent = `${data.zip} -- ${data.name}`;
-    localDropDown.append(opt);
+    //localDropDown.append(opt);
 }
 
 //Stores the location's data in the db.json file to persist the list, and be able to recall the already searched zipcodes.

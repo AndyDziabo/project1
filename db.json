@@ -69,6 +69,16 @@
         "lon": -118.4065,
         "country": "US"
       }
+    },
+    {
+      "id": "15902",
+      "geoData": {
+        "zip": "15902",
+        "name": "Johnstown",
+        "lat": 40.3078,
+        "lon": -78.8969,
+        "country": "US"
+      }
     }
   ]
 }
