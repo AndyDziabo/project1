@@ -119,9 +119,19 @@ body {
     background-color: rgb(54, 69, 88);
     margin: auto;
     font-size: 25px;
-    text-align: center;
+    /* text-align: center; */
     align-items: center;
     display: flex;
+}
+
+#details .container {
+    text-align: center;
+    align-items: center;
+    margin: auto;
+}
+
+#details-weather-icon {
+    padding: 1rem;
 }
 
 #details ul {

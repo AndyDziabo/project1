@@ -243,32 +243,37 @@ function selectFav(e){
 
 //display the details of the selected day
 const details = document.querySelector('#details ul');
+const detailsCity = document.getElementById('details-city-name');
+const detailsIcon = document.getElementById('details-weather-icon');
 function displayDetails(data){
     //HTML Elements
     details.innerHTML = ''
     changeBackground(data.weather[0].id)                   //new
-    const iconImg = document.createElement('li')           //new
+    const iconImg = document.createElement('p')           //new
     const img = document.createElement('img')              //new
-    const cityName = document.createElement('li')
     const windSpeed = document.createElement('li')
     const temperature = document.createElement('li')
-    const weatherDescription = document.createElement('li')
+    const weatherDescription = document.createElement('p')
     const feelsLike = document.createElement('li')
     const highTemp = document.createElement('li')
     const lowTemp = document.createElement('li')
     const humidity = document.createElement('li')
 
     img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` //new
-    iconImg.append(img)                                                          //new
+    iconImg.append(img)                                                         //new
     humidity.textContent = `Humidity: ${data.main.humidity}%`
     highTemp.textContent = `High: ${data.main.temp_max} F`
     lowTemp.textContent = `Low: ${data.main.temp_min} F`
     feelsLike.textContent = `Feels Like: ${data.main.feels_like} F`
-    cityName.textContent = city
     weatherDescription.textContent = data.weather[0].description
     temperature.textContent = `Temperature: ${data.main.temp} F`
     windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
-    details.append(iconImg,cityName, humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature, weatherDescription); //new added iconImg
+
+    detailsCity.textContent = city;
+    detailsIcon.append(iconImg, weatherDescription);
+
+
+    details.append(humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature); //new added iconImg
     console.log(data);
 };
 
