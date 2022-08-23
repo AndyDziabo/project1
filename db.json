@@ -39,6 +39,56 @@
         "lon": -77.0375,
         "country": "US"
       }
+    },
+    {
+      "id": "20001",
+      "geoData": {
+        "zip": "20001",
+        "name": "Washington",
+        "lat": 38.9122,
+        "lon": -77.0177,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20010",
+      "geoData": {
+        "zip": "20010",
+        "name": "Washington",
+        "lat": 38.9327,
+        "lon": -77.0322,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20036",
+      "geoData": {
+        "zip": "20036",
+        "name": "Washington",
+        "lat": 38.9087,
+        "lon": -77.0414,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20030",
+      "geoData": {
+        "zip": "20030",
+        "name": "Washington",
+        "lat": 38.8933,
+        "lon": -77.0146,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35242",
+      "geoData": {
+        "zip": "35242",
+        "name": "Shelby County",
+        "lat": 33.3813,
+        "lon": -86.7046,
+        "country": "US"
+      }
     }
   ]
 }
