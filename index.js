@@ -1,9 +1,6 @@
 //
 // GLOBAL VARIABLE DECLARATION
 //
-// let zipCodeEntry = 00000;
-// let lat = 0;
-// let lon = 0;
 let repeatZip = false;
 
 let FORECAST_ARY = [
@@ -107,7 +104,7 @@ function initSavedZips () {
             deleteBtn.value = entry.id;
             newLine.append(deleteBtn);
             deleteBtn.addEventListener('click', (event) => {
-                deleteLocation (event.target.value);
+                deleteLocation(event.target.value);
             });
 
             locationList.append(newLine);

@@ -39,6 +39,16 @@
         "lon": -118.4065,
         "country": "US"
       }
+    },
+    {
+      "id": "20009",
+      "geoData": {
+        "zip": "20009",
+        "name": "Washington",
+        "lat": 38.9202,
+        "lon": -77.0375,
+        "country": "US"
+      }
     }
   ]
 }
