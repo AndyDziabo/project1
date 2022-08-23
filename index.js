@@ -244,9 +244,9 @@ const details = document.querySelector('#details ul');
 function displayDetails(data){
     //HTML Elements
     details.innerHTML = ''
-    changeBackground(data.weather[0].id)                   //new
-    const iconImg = document.createElement('li')           //new
-    const img = document.createElement('img')              //new
+    changeBackground(data.weather[0].id)                   
+    const iconImg = document.createElement('li')           
+    const img = document.createElement('img')              
     const cityName = document.createElement('li')
     const windSpeed = document.createElement('li')
     const temperature = document.createElement('li')
@@ -255,18 +255,21 @@ function displayDetails(data){
     const highTemp = document.createElement('li')
     const lowTemp = document.createElement('li')
     const humidity = document.createElement('li')
-
-    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` //new
-    iconImg.append(img)                                                          //new
+    
+    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` 
+    iconImg.append(img)                                                         
     humidity.textContent = `Humidity: ${data.main.humidity}%`
-    highTemp.textContent = `High: ${data.main.temp_max} F`
-    lowTemp.textContent = `Low: ${data.main.temp_min} F`
-    feelsLike.textContent = `Feels Like: ${data.main.feels_like} F`
+    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`                      //new edited text
+    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`                        //new edited text
+    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`             //new edited text
+    feelsLike.id = 'feels'                                                                  //new
     cityName.textContent = city
     weatherDescription.textContent = data.weather[0].description
-    temperature.textContent = `Temperature: ${data.main.temp} F`
+    weatherDescription.id = 'wDescription'                                                  //new
+    temperature.textContent = `${Math.round(data.main.temp)} F`                             //new edited text
+    temperature.id = 'temp'                                                                 //new
     windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
-    details.append(iconImg,cityName, humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature, weatherDescription); //new added iconImg
+    details.append(iconImg,cityName, temperature, highTemp, lowTemp, feelsLike, humidity, windSpeed, weatherDescription); 
     console.log(data);
 };
 
@@ -279,7 +282,7 @@ forecastMenu.addEventListener('click', e => {
     console.log(FORECAST_ARY[dayIndex]);
 });
 
-//Changes the backgound image of the details based on the weather description     //new
+//Changes the backgound image of the details based on the weather description    
 function changeBackground(id){
     let img;
     let num = String(id).charAt(0);
