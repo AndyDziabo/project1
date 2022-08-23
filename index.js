@@ -13,8 +13,10 @@ let city;
 const forecastMenu = document.querySelector('#daysMenu');
 const locationDiv = document.querySelector('#savedLocation');
 const locationList = locationDiv.querySelector('ul');
+const locationMenu = document.querySelector('#location-menu');
 const zip = document.querySelector('#zip');
 
+document.getElementById('left').style.display = 'none';
 document.getElementById('right').style.display = 'none';
 document.getElementById('main').style.display = 'none';
 
@@ -25,17 +27,17 @@ document.getElementById('main').style.display = 'none';
 //Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
 //form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
 //of the side menu that contains the forecast. It is controlled by the "Show Forecast" button.
-const toggle = document.querySelector('#toggleForecast');
-toggle.addEventListener('click', e => toggleMenu());
+const forecastBtnDiv = document.querySelector('#toggleForecast');
+forecastBtnDiv.addEventListener('click', e => toggleMenu());
 
 function toggleMenu(){
     let d = document.getElementById('right');
     if(d.style.display === 'none'){
         d.style.display = 'block';
-        toggle.textContent = 'hide forecast';
+        forecastBtnDiv.textContent = 'hide forecast';
     }else{
         d.style.display = 'none';
-        toggle.textContent = 'show forecast';
+        forecastBtnDiv.textContent = 'show forecast';
     }
 }
 
