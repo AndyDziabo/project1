@@ -11,8 +11,8 @@ let city;
 
 // HTML ELEMENTS
 const forecastMenu = document.querySelector('#daysMenu');
-const locationDiv = document.querySelector('#savedLocation');
-const locationList = locationDiv.querySelector('ul');
+// const locationDiv = document.querySelector('#savedLocation');
+// const locationList = locationDiv.querySelector('ul');
 const locationMenu = document.querySelector('#location-menu');
 const zip = document.querySelector('#zip');
 
@@ -28,16 +28,22 @@ document.getElementById('main').style.display = 'none';
 //form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
 //of the side menu that contains the forecast. It is controlled by the "Show Forecast" button.
 const forecastBtnDiv = document.querySelector('#toggleForecast');
-forecastBtnDiv.addEventListener('click', e => toggleMenu());
+const locationBtnDiv = document.querySelector('#toggle-locations');
+forecastBtnDiv.addEventListener('click', e => toggleMenu('right'));
+locationBtnDiv.addEventListener('click', e => toggleMenu('left'));
 
-function toggleMenu(){
-    let d = document.getElementById('right');
-    if(d.style.display === 'none'){
-        d.style.display = 'block';
-        forecastBtnDiv.textContent = 'hide forecast';
+function toggleMenu (side) {
+    let menu = document.getElementById(`${side}`);
+    if(menu.style.display === 'none'){
+        menu.style.display = 'block';
+        if (side === 'right') {
+            forecastBtnDiv.textContent = 'hide forecast';
+        }
     }else{
-        d.style.display = 'none';
-        forecastBtnDiv.textContent = 'show forecast';
+        menu.style.display = 'none';
+        if (side === 'left') {
+            forecastBtnDiv.textContent = 'show forecast';
+        }
     }
 }
 
@@ -65,7 +71,7 @@ zip.addEventListener('submit', e => {
     e.preventDefault();
 
     let inputZip = e.target.zipCode.value;
-    displayZip(inputZip);
+    // displayZip(inputZip);
 
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
