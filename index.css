@@ -43,7 +43,7 @@ body {
 }
 
 #left {
-    margin-top: 50px;                   /* new */
+    margin-top: 50px;                   
     border-style: solid;
     border-radius: 20px;
     border-width: 7px;
@@ -54,8 +54,21 @@ body {
     float: left;
 }
 
+#temp {                          /* new */
+    padding: 30px;
+    font-size: 50px;
+}
+
+#feels{                         /* new */
+    padding-bottom: 20px;
+}
+
+#wDescription{                  /* new */
+    padding-top: 20px;
+}
+
 #rightTop {
-    min-height: 95px;                       /* new changed to 95px*/
+    min-height: 95px;                       
 }
 
 #daysMenu {
@@ -66,7 +79,7 @@ body {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: rgb(54, 69, 88);
-    padding: 10px 0px;                      /* new change from 30px to 10px*/
+    padding: 10px 0px;                      
 }
 
 .days {
@@ -101,8 +114,8 @@ body {
     border-radius: 20px;
     width: 95%;
     min-height: 600px;
-    background-size: cover;                                   /* new */
-    text-shadow: 0 0 5px #000000, 0 0 10px #000000;        /* new */
+    background-size: cover;                                   
+    text-shadow: 0 0 5px #000000, 0 0 10px #000000;        
     background-color: rgb(54, 69, 88);
     margin: auto;
     font-size: 25px;
