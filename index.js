@@ -34,14 +34,14 @@ locationBtnDiv.addEventListener('click', e => toggleMenu('left'));
 
 function toggleMenu (side) {
     let menu = document.getElementById(`${side}`);
-    if(menu.style.display === 'none'){
+    if (menu.style.display === 'none') {
         menu.style.display = 'block';
         if (side === 'right') {
             forecastBtnDiv.textContent = 'hide forecast';
         }
-    }else{
+    } else {
         menu.style.display = 'none';
-        if (side === 'left') {
+        if (side === 'right') {
             forecastBtnDiv.textContent = 'show forecast';
         }
     }
