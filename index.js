@@ -33,8 +33,10 @@ function toggleMenu(){
     let d = document.getElementById('right');
     if(d.style.display === 'none'){
         d.style.display = 'block';
+        toggle.textContent = 'hide forecast';
     }else{
         d.style.display = 'none';
+        toggle.textContent = 'show forecast';
     }
 }
 
@@ -273,7 +275,6 @@ function displayDetails(data){
 //Select day from day menu
 
 forecastMenu.addEventListener('click', e => {
-
     const dayIndex = e.target.value;
     displayDetails(FORECAST_ARY[dayIndex][1])
     console.log(FORECAST_ARY[dayIndex]);

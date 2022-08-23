@@ -135,14 +135,14 @@ body {
     padding-top: 300px;
 }
 
-#toggleForecast {
+#forecast {
     width: 100%;
     min-height: 50px;
     line-height: 50px;
     text-align: center;
 }
 
-#showForecast {
+#toggleForecast {
     background-color: aliceblue;
     color: black;
     border-radius: 0.5rem;
