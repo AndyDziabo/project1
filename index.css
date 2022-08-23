@@ -142,6 +142,13 @@ body {
     text-align: center;
 }
 
+#showForecast {
+    background-color: aliceblue;
+    color: black;
+    border-radius: 0.5rem;
+    margin: 1rem;
+}
+
 #zipCode {
     min-height: 50px;
     min-width: 400px;
