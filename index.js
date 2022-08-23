@@ -67,7 +67,6 @@ zip.addEventListener('submit', e => {
 
     let inputZip = e.target.zipCode.value;
     displayZip(inputZip);
-    initSavedZips();
 
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
@@ -79,27 +78,42 @@ zip.addEventListener('submit', e => {
 });
 
 function displayZip (zipCode) {
+    locationList.innerHTML = '';
     const newLine = document.createElement('li');
     newLine.textContent = zipCode;
     locationList.append(newLine);
+    newLine.addEventListener('click', showHideZips);
+    initSavedZips();
 }
 
 function initSavedZips () {
     fetch('http://localhost:3000/zipcodes')
     .then(res => res.json())
-    .then(savedZips => savedZips.forEach(entry => {
-        const newLine = document.createElement('li');
-        newLine.textContent = entry.id;
-        newLine.classList.add('hide');
-        locationList.append(newLine);
-        newLine.addEventListener('click', (event) => {
-            fetchAndRender(entry.geoData);
+    .then(savedZips => {
+        savedZips.sort(function(a, b) { 
+            return a.id - b.id
+        });
+        savedZips.forEach(entry => {
+            const newLine = document.createElement('li');
+            newLine.textContent = entry.id;
+            newLine.classList.add('hide');
+            locationList.append(newLine);
+            newLine.addEventListener('click', (event) => {
+                displayZip(entry.id);
+                fetchAndRender(entry.geoData);
+            })
         })
-    }))
-    .then(locationDiv.addEventListener('click', (event) => {
-        savedZips = locationList.querySelectorAll('li');
-        savedZips.forEach(location => toggleDisplay(location));
-    }));
+    });
+}
+
+function showHideZips () {
+    const savedZips = locationList.querySelectorAll('li');
+    sortZips(savedZips);
+    savedZips.forEach(location => toggleDisplay(location));
+}
+
+function sortZips (zipList) {
+    console.log(zipList);
 }
 
 function toggleDisplay (element) {
