@@ -67,7 +67,7 @@ body {
     padding-top: 20px;
 }
 
-#rightTop {
+#rightTop, #left-top {
     min-height: 95px;                       
 }
 
@@ -95,7 +95,7 @@ body {
     cursor: pointer;
 }
 
-#right {
+#right, #left {
     display: none;
     width: 30%;
     min-height: 700px;
