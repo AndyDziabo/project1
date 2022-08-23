@@ -1,36 +1,6 @@
 {
   "zipcodes": [
     {
-      "id": "20009",
-      "geoData": {
-        "zip": "20009",
-        "name": "Washington",
-        "lat": 38.9202,
-        "lon": -77.0375,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20003",
-      "geoData": {
-        "zip": "20003",
-        "name": "Washington",
-        "lat": 38.8829,
-        "lon": -76.9895,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20001",
-      "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
-        "country": "US"
-      }
-    },
-    {
       "id": "35578",
       "geoData": {
         "zip": "35578",

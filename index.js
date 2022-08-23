@@ -91,17 +91,26 @@ function initSavedZips () {
     .then(res => res.json())
     .then(savedZips => {
         savedZips.sort(function(a, b) { 
-            return a.id - b.id
+            return a.id - b.id;
         });
         savedZips.forEach(entry => {
             const newLine = document.createElement('li');
             newLine.textContent = entry.id;
             newLine.classList.add('hide');
-            locationList.append(newLine);
             newLine.addEventListener('click', (event) => {
                 displayZip(entry.id);
                 fetchAndRender(entry.geoData);
             })
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'x';
+            deleteBtn.value = entry.id;
+            newLine.append(deleteBtn);
+            deleteBtn.addEventListener('click', (event) => {
+                deleteLocation (event.target.value);
+            });
+
+            locationList.append(newLine);
         })
     });
 }
@@ -128,7 +137,8 @@ function fetchAndRender (geoData) {
     fetchWeatherByLatLon(geoData.lat, geoData.lon)
         .then(weatherData => {
             city = weatherData.name;
-            displayDetails(weatherData)});
+            displayDetails(weatherData)
+        });
     fetchForecastByLatLon(geoData.lat, geoData.lon)
         .then(forecastData => {
             storeForecast(forecastData);
@@ -265,6 +275,10 @@ function saveLocations (data) {
         body: JSON.stringify(zipCodeGeoData)
     })
     .then(res => res.json())
+}
+
+function deleteLocation (zipCode) {
+    fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'});
 }
 
 //Handles the drop-down menu of previously searched zip codes. (still needs to call a renderingfunction to put display 
