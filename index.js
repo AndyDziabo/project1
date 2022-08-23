@@ -147,7 +147,7 @@ function storeForecast (forecastData) {
         // set index 0 to day of week
         if (FORECAST_ARY[index].length === 0) {
             const entryDayOfWeek = entryDate.toLocaleString('en-US', {weekday: 'long'});
-            FORECAST_ARY[index].push(entryDayOfWeek);
+            FORECAST_ARY[index].push(entryDayOfWeek.toLowerCase());
         }
         // push forecast data
         FORECAST_ARY[index].push(entry);
@@ -246,8 +246,11 @@ const details = document.querySelector('#details ul');
 const detailsCity = document.getElementById('details-city-name');
 const detailsIcon = document.getElementById('details-weather-icon');
 function displayDetails(data){
-    //HTML Elements
+    // clear any existing
     details.innerHTML = ''
+    detailsCity.innerHTML = '';
+    detailsIcon.innerHTML = '';
+    //HTML Elements
     changeBackground(data.weather[0].id)                   //new
     const iconImg = document.createElement('p')           //new
     const img = document.createElement('img')              //new
