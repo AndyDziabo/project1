@@ -103,7 +103,7 @@ body {
     min-height: 600px;
     background-size: cover;                                   /* new */
     text-shadow: 0 0 5px #000000, 0 0 10px #000000;        /* new */
-    background-color: rgb(42, 129, 250);
+    background-color: rgb(54, 69, 88);
     margin: auto;
     font-size: 25px;
     text-align: center;
@@ -131,7 +131,7 @@ body {
 
 #zipCode {
     min-height: 50px;
-    min-width: 450px;
+    min-width: 400px;
     font-size: 20pt;
     padding-top: 7px;
     text-align: center;
