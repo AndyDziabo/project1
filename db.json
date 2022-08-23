@@ -49,6 +49,26 @@
         "lon": -73.9967,
         "country": "US"
       }
+    },
+    {
+      "id": "16630",
+      "geoData": {
+        "zip": "16630",
+        "name": "Cresson",
+        "lat": 40.4608,
+        "lon": -78.5861,
+        "country": "US"
+      }
+    },
+    {
+      "id": "90210",
+      "geoData": {
+        "zip": "90210",
+        "name": "Beverly Hills",
+        "lat": 34.0901,
+        "lon": -118.4065,
+        "country": "US"
+      }
     }
   ]
 }

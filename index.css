@@ -10,58 +10,68 @@ body {
     color: aliceblue;
 }
 
+#check {
+    font-family: cursive;
+    font-size: 40px;
+    padding-bottom: 25px;
+}
+
 #wrapper {
-    width: 60%;
+    width: 68%;
     min-height: 100px;
     background: rgb(54, 69, 88);
-    margin: auto;
+    float: right;
+    /* margin: auto; */
 }
 
 #logo {
     display: block;
-    width: 100%;
+    width: 50%;
     min-height: 800px;
     background: rgb(54, 69, 88);
-    line-height: 800px;
+    /* line-height: 800px; */
     text-align: center;
+    
     margin-bottom: 5px;
 }
 
 #main {
     display: none;
-    width: 100%;
+    width: 78%;
     min-height: 1000px;
     background-color: rgb(54, 69, 88);
 }
 
-.clearfix::after {
-    content: "";
-    display: block;
-    clear: both;
-}
-
 #left {
+    margin-top: 50px;                   /* new */
+    border-style: solid;
     border-radius: 20px;
+    border-width: 7px;
+    border-color: rgb(199, 199, 199);
     width: 70%;
     min-height: 700px;
-    background-color: rgb(167, 167, 167);
+    background-color: rgb(54, 69, 88);  
     float: left;
 }
 
 #rightTop {
-    min-height: 70px;
+    min-height: 95px;                       /* new changed to 95px*/
 }
 
 #daysMenu {
     list-style-type: none;
+    border-style: solid;
+    border-width: 7px 7px 7px 0px;
+    border-color: rgb(199, 199, 199);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    background-color: rgb(167, 167, 167);
-    padding: 30px 0px;
+    background-color: rgb(54, 69, 88);
+    padding: 10px 0px;                      /* new change from 30px to 10px*/
 }
 
 .days {
-    border-radius: 6px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     min-height: 80px;
     width: 80%;
     background-color: beige;
@@ -89,15 +99,16 @@ body {
 
 #details {
     border-radius: 20px;
-    width: 85%;
+    width: 95%;
     min-height: 600px;
-    background-color: rgb(42, 129, 250);
-
+    background-size: cover;                                   /* new */
+    text-shadow: 0 0 5px #000000, 0 0 10px #000000;        /* new */
+    background-color: rgb(54, 69, 88);
     margin: auto;
+    font-size: 25px;
     text-align: center;
     align-items: center;
     display: flex;
-    /* line-height: 600px; */
 }
 
 #details ul {
@@ -107,8 +118,8 @@ body {
 #location {
     width: 100%;
     min-height: 800px;
-    line-height: 800px;
     text-align: center;
+    padding-top: 300px;
 }
 
 #toggleForecast {
@@ -116,4 +127,18 @@ body {
     min-height: 50px;
     line-height: 50px;
     text-align: center;
+}
+
+#zipCode {
+    min-height: 50px;
+    min-width: 400px;
+    font-size: 20pt;
+    padding-top: 7px;
+    text-align: center;
+}
+
+#sub {
+    min-height: 50px;
+    font-size: 35px;
+    font-weight: bold;
 }
