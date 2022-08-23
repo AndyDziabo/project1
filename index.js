@@ -14,6 +14,8 @@ let city;
 
 // HTML ELEMENTS
 const forecastMenu = document.querySelector('#daysMenu');
+const locationDiv = document.querySelector('#savedLocation');
+const locationList = locationDiv.querySelector('ul');
 const zip = document.querySelector('#zip');
 
 document.getElementById('right').style.display = 'none';
@@ -62,8 +64,11 @@ function toggleMain(){
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
 zip.addEventListener('submit', e => {
     e.preventDefault();
+
     let inputZip = e.target.zipCode.value;
-    console.log(inputZip);
+    displayZip(inputZip);
+    initSavedZips();
+
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
         toggleMain();
@@ -72,6 +77,38 @@ zip.addEventListener('submit', e => {
     })
     .catch (error => console.log(error));
 });
+
+function displayZip (zipCode) {
+    const newLine = document.createElement('li');
+    newLine.textContent = zipCode;
+    locationList.append(newLine);
+}
+
+function initSavedZips () {
+    fetch('http://localhost:3000/zipcodes')
+    .then(res => res.json())
+    .then(savedZips => savedZips.forEach(entry => {
+        const newLine = document.createElement('li');
+        newLine.textContent = entry.id;
+        newLine.classList.add('hide');
+        locationList.append(newLine);
+        newLine.addEventListener('click', (event) => {
+            fetchAndRender(entry.geoData);
+        })
+    }))
+    .then(locationDiv.addEventListener('click', (event) => {
+        savedZips = locationList.querySelectorAll('li');
+        savedZips.forEach(location => toggleDisplay(location));
+    }));
+}
+
+function toggleDisplay (element) {
+    if (element.classList.contains('hide')) {
+        element.classList.remove('hide');
+    } else {
+        element.classList.add('hide');
+    }
+}
 
 function fetchAndRender (geoData) {
     fetchWeatherByLatLon(geoData.lat, geoData.lon)
@@ -187,17 +224,17 @@ function renderForecastMenu () {
 
 //On page load/refresh, it pulls the info stored in the db.json file, and sends it to the 'popDropDown' function to
 //populate the drop down list. 
-fetch('http://localhost:3000/zipcodes')
-.then(res => res.json())
-.then(data => data.forEach(zip => popDropDown(zip.geoData)));
+// fetch('http://localhost:3000/zipcodes')
+// .then(res => res.json())
+// .then(data => data.forEach(zip => popDropDown(zip.geoData)));
 
 //Populates the favorites drop-down menu every time a zip code is entered. 
-function popDropDown(data){
-    const opt = document.createElement('option');
-    opt.value = data.zip;
-    opt.textContent = `${data.zip} -- ${data.name}`;
-    localDropDown.append(opt);
-}
+// function popDropDown(data){
+//     const opt = document.createElement('option');
+//     opt.value = data.zip;
+//     opt.textContent = `${data.zip} -- ${data.name}`;
+//     localDropDown.append(opt);
+// }
 
 //Stores the location's data in the db.json file to persist the list, and be able to recall the already searched zipcodes.
 function saveLocations (data) {
@@ -218,8 +255,9 @@ function saveLocations (data) {
 
 //Handles the drop-down menu of previously searched zip codes. (still needs to call a renderingfunction to put display 
 //the data in the days menu, and the details section).
-const localDropDown = document.querySelector('#favLocation');
-localDropDown.addEventListener('change', e => selectFav(e));
+// 
+// const localDropDown = document.querySelector('#favLocation');
+// localDropDown.addEventListener('change', e => selectFav(e));
 function selectFav(e){
     const selection = e.target.value;
     if (selection !== "") {

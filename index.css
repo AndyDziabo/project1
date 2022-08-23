@@ -172,3 +172,7 @@ body {
     font-size: 35px;
     font-weight: bold;
 }
+
+.hide {
+    display: none;
+}
