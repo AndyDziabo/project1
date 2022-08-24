@@ -1,82 +1,12 @@
 {
   "zipcodes": [
     {
-      "id": "35578",
-      "geoData": {
-        "zip": "35578",
-        "name": "Walker County",
-        "lat": 33.9299,
-        "lon": -87.4324,
-        "country": "US"
-      }
-    },
-    {
-      "id": "16630",
-      "geoData": {
-        "zip": "16630",
-        "name": "Cresson",
-        "lat": 40.4608,
-        "lon": -78.5861,
-        "country": "US"
-      }
-    },
-    {
-      "id": "90210",
-      "geoData": {
-        "zip": "90210",
-        "name": "Beverly Hills",
-        "lat": 34.0901,
-        "lon": -118.4065,
-        "country": "US"
-      }
-    },
-    {
       "id": "20009",
       "geoData": {
         "zip": "20009",
         "name": "Washington",
         "lat": 38.9202,
         "lon": -77.0375,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20001",
-      "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20010",
-      "geoData": {
-        "zip": "20010",
-        "name": "Washington",
-        "lat": 38.9327,
-        "lon": -77.0322,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20036",
-      "geoData": {
-        "zip": "20036",
-        "name": "Washington",
-        "lat": 38.9087,
-        "lon": -77.0414,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20030",
-      "geoData": {
-        "zip": "20030",
-        "name": "Washington",
-        "lat": 38.8933,
-        "lon": -77.0146,
         "country": "US"
       }
     },
@@ -91,12 +21,32 @@
       }
     },
     {
-      "id": "15946",
+      "id": "16630",
       "geoData": {
-        "zip": "15946",
-        "name": "Portage Township",
-        "lat": 40.3724,
-        "lon": -78.6328,
+        "zip": "16630",
+        "name": "Cresson",
+        "lat": 40.4608,
+        "lon": -78.5861,
+        "country": "US"
+      }
+    },
+    {
+      "id": "27713",
+      "geoData": {
+        "zip": "27713",
+        "name": "Durham",
+        "lat": 35.9112,
+        "lon": -78.9178,
+        "country": "US"
+      }
+    },
+    {
+      "id": "07901",
+      "geoData": {
+        "zip": "07901",
+        "name": "Summit",
+        "lat": 40.7149,
+        "lon": -74.3642,
         "country": "US"
       }
     }
