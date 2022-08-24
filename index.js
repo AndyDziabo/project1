@@ -98,7 +98,6 @@ function zipEntered(e){
             fetchAndRender(geoData);
             fetchSavedLocations()
             .then(savedZips => {
-                console.log(savedZips);
                 if (!savedZips.find(entry => entry.id === inputZip)) {
                     saveLocation(geoData);
                     savedZips.push({
@@ -368,11 +367,8 @@ function displayDetails(data){
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
-    // TO-DO : figure out how to consolidate the multiple forecasts for each day
     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
-    console.log(dayForecast);
-    // then call display details on new object
-    displayDetails(dayForecast)
+    displayDetails(dayForecast);
 });
 
 function reduceHourlyForecastsToDay(weatherAry) {
@@ -390,11 +386,11 @@ function reduceHourlyForecastsToDay(weatherAry) {
     dayForecast.dt =  Math.floor(timestamp.getTime() / 1000);
 
     // get values
-    console.log(weatherAryCopy);
     let lowestLow = 100;
     let highestHigh = -100;
     let tempSum = 0;
     let humiditySum = 0;
+    let feelsLikeSum = 0;
     weatherAryCopy.forEach(entry => {
         // add temperature to sum total for averaging
         tempSum += entry.main.temp;
@@ -406,10 +402,13 @@ function reduceHourlyForecastsToDay(weatherAry) {
         if (maxTemp > highestHigh) {highestHigh = maxTemp};
         // add humidity to sum total for averaging
         humiditySum += entry.main.humidity;
+        // add feels like to sum total for averaging
+        feelsLikeSum += entry.main.feels_like;
     });
     const numEntries = weatherAryCopy.length;
     const tempAvg = tempSum / numEntries;
     const humidityAvg = humiditySum / numEntries;
+    const feelsLikeAvg = feelsLikeSum / numEntries;
 
     // set values
     dayForecast.main = {};
@@ -417,6 +416,7 @@ function reduceHourlyForecastsToDay(weatherAry) {
     dayForecast.main.temp = tempAvg;
     dayForecast.main.temp_max = highestHigh;
     dayForecast.main.temp_min = lowestLow;
+    dayForecast.main.feels_like = feelsLikeAvg;
 
     // get weather for middle entry
     const middle = Math.floor(numEntries / 2);
