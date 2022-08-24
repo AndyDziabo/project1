@@ -84,9 +84,7 @@ function zipEntered(e){
         fetchCoordinatesByZip(inputZip)
         .then(res => {
             if (res.ok) {
-                //city = res
                 return res.json()
-                //.catch (error => console.log(error));
             }
             throw new Error('Not a valid zip code')
         })
@@ -108,6 +106,7 @@ function zipEntered(e){
             });
         })
         .catch (error => {
+            console.log(error);     // TO-DO: check if handling error like this is ok
             errorMessage.innerText = 'Not a valid Zip Code';
             setTimeout(function(){
                 errorMessage.innerText = '';
@@ -186,15 +185,6 @@ function getSavedGeoData (zipCode) {
 // gets latitude & longitude using zip code
 function fetchCoordinatesByZip (zipCode) {
     return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
-    // .then(res => {
-    //     if (res.ok) {
-    //         //city = res
-    //         return res.json()
-    //     }
-
-    //     throw new Error('Not a valid zip code');
-    // })
-    // .catch (error => console.log(error));
 }
 
 // gets current weather using latitude & longitude
@@ -332,7 +322,10 @@ function displayDetails(data){
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
-    displayDetails(FORECAST_ARY[dayIndex][1])       // TO-DO : figure out how to consolidate the multiple forecasts for each day
+    // TO-DO : figure out how to consolidate the multiple forecasts for each day
+
+    // then call display details on new object
+    displayDetails(FORECAST_ARY[dayIndex][1])
 });
 
 //Changes the backgound image of the details based on the weather description
