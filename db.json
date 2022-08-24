@@ -1,46 +1,6 @@
 {
   "zipcodes": [
     {
-      "id": "35578",
-      "geoData": {
-        "zip": "35578",
-        "name": "Walker County",
-        "lat": 33.9299,
-        "lon": -87.4324,
-        "country": "US"
-      }
-    },
-    {
-      "id": "16630",
-      "geoData": {
-        "zip": "16630",
-        "name": "Cresson",
-        "lat": 40.4608,
-        "lon": -78.5861,
-        "country": "US"
-      }
-    },
-    {
-      "id": "90210",
-      "geoData": {
-        "zip": "90210",
-        "name": "Beverly Hills",
-        "lat": 34.0901,
-        "lon": -118.4065,
-        "country": "US"
-      }
-    },
-    {
-      "id": "35246",
-      "geoData": {
-        "zip": "35246",
-        "name": "Birmingham",
-        "lat": 33.5207,
-        "lon": -86.8025,
-        "country": "US"
-      }
-    },
-    {
       "id": "20009",
       "geoData": {
         "zip": "20009",

@@ -314,11 +314,9 @@ function saveLocation (data) {
 
 function deleteLocation (zipCode) {
     fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'})
-    .then(res => res.json())
-    .then(data => {
+    .then(() => {
         fetchSavedLocations()
         .then(savedZips => {
-            locationMenu.innerHTML = '<ul></ul>';
             renderLocationMenu(savedZips);
             // fetchAndRender(savedZips[0].geoData);
         });
@@ -371,10 +369,62 @@ function displayDetails(data){
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
     // TO-DO : figure out how to consolidate the multiple forecasts for each day
-
+    const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
+    console.log(dayForecast);
     // then call display details on new object
-    displayDetails(FORECAST_ARY[dayIndex][1])
+    displayDetails(dayForecast)
 });
+
+function reduceHourlyForecastsToDay(weatherAry) {
+
+    // copy passed array & remove first element
+    let weatherAryCopy = weatherAry.map(ele => ele);
+    weatherAryCopy.shift();
+
+    // create return object
+    let dayForecast = {};
+
+    // set timestamp to noon of day
+    let timestamp = new Date(weatherAryCopy[0].dt * 1000);
+    timestamp.setHours(12, 0, 0);
+    dayForecast.dt =  Math.floor(timestamp.getTime() / 1000);
+
+    // get values
+    console.log(weatherAryCopy);
+    let lowestLow = 100;
+    let highestHigh = -100;
+    let tempSum = 0;
+    let humiditySum = 0;
+    weatherAryCopy.forEach(entry => {
+        // add temperature to sum total for averaging
+        tempSum += entry.main.temp;
+        // find lowest low for day
+        const minTemp = entry.main.temp_min;
+        if (minTemp < lowestLow) {lowestLow = minTemp}
+        // find highest high for day
+        const maxTemp = entry.main.temp_max;
+        if (maxTemp > highestHigh) {highestHigh = maxTemp};
+        // add humidity to sum total for averaging
+        humiditySum += entry.main.humidity;
+    });
+    const numEntries = weatherAryCopy.length;
+    const tempAvg = tempSum / numEntries;
+    const humidityAvg = humiditySum / numEntries;
+
+    // set values
+    dayForecast.main = {};
+    dayForecast.main.humidity = humidityAvg;
+    dayForecast.main.temp = tempAvg;
+    dayForecast.main.temp_max = highestHigh;
+    dayForecast.main.temp_min = lowestLow;
+
+    // get weather for middle entry
+    const middle = Math.floor(numEntries / 2);
+    dayForecast.weather = weatherAryCopy[middle].weather;
+    dayForecast.wind = weatherAryCopy[middle].wind;
+
+    return dayForecast;
+}
 
 //Changes the backgound image of the details based on the weather description
 function changeBackground (id) {
