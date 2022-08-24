@@ -1,5 +1,4 @@
 {
-
   "zipcodes": [
     {
       "id": "07901",
@@ -22,15 +21,54 @@
       }
     },
     {
-      "id": "20010",
+      "id": "15946",
       "geoData": {
-        "zip": "20010",
+        "zip": "15946",
+        "name": "Portage Township",
+        "lat": 40.3724,
+        "lon": -78.6328,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35242",
+      "geoData": {
+        "zip": "35242",
+        "name": "Shelby County",
+        "lat": 33.3813,
+        "lon": -86.7046,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20001",
+      "geoData": {
+        "zip": "20001",
         "name": "Washington",
-        "lat": 38.9327,
-        "lon": -77.0322,
+        "lat": 38.9122,
+        "lon": -77.0177,
+        "country": "US"
+      }
+    },
+    {
+      "id": "90210",
+      "geoData": {
+        "zip": "90210",
+        "name": "Beverly Hills",
+        "lat": 34.0901,
+        "lon": -118.4065,
+        "country": "US"
+      }
+    },
+    {
+      "id": "16630",
+      "geoData": {
+        "zip": "16630",
+        "name": "Cresson",
+        "lat": 40.4608,
+        "lon": -78.5861,
         "country": "US"
       }
     }
   ]
-
 }

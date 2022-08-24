@@ -53,10 +53,10 @@ function toggleMain(){
     if (mainDiv.style.display === 'none') {
         mainDiv.style.display = 'block';
         logoDiv.style.display = 'none';
-    } else {
-        mainDiv.style.display = 'none';
-        logoDiv.style.display = 'block';
-    }
+    }// else {
+    //     mainDiv.style.display = 'none';
+    //     logoDiv.style.display = 'block';
+    // }
 }
 
 
@@ -94,10 +94,11 @@ function zipEntered(e){
         })
         .then (geoData => {
             toggleMain();
-            displayZip(inputZip);
+            displayZip(inputZip, geoData);
             fetchAndRender(geoData);
             fetchSavedLocations()
             .then(savedZips => {
+                console.log(!savedZips.find(entry => entry.id === inputZip))
                 if (!savedZips.find(entry => entry.id === inputZip)) {
                     saveLocation(geoData);
                     savedZips.push({
@@ -105,6 +106,7 @@ function zipEntered(e){
                         geoData: geoData
                     });
                 }
+             
                 renderLocationMenu(savedZips);
             });
         })
@@ -118,18 +120,32 @@ function zipEntered(e){
     }
 };
 
-
-function displayZip (zipCode) {
-    locationBtnDiv.innerHTML = '';
-    locationBtnDiv.textContent = zipCode;
-}
-
 function fetchSavedLocations () {
     return fetch('http://localhost:3000/zipcodes')     // get zip codes
     .then(res => res.json());
 }
 
+function toggleDisplay (element) {
+    if (element.classList.contains('hide')) {
+        element.classList.remove('hide');
+    } else {
+        element.classList.add('hide');
+    }
+}
+
+function displayZip(zipCode, zipData) {
+    locationBtnDiv.innerHTML = '';
+    locationBtnDiv.textContent = zipCode;
+    // console.log(zipData);
+    // console.log(zipData)
+
+    if(typeof zipData !== 'undefined'){
+        locationBtnDiv.textContent += ` -- ${zipData.name}`
+    }
+}
+
 function renderLocationMenu (savedZips) {
+    console.log('here')
     locationMenu.innerHTML = '<ul></ul>';   // clear any existing
     savedZips.sort(function(a, b) {         // sort zip codes
         return a.id - b.id;
@@ -137,14 +153,14 @@ function renderLocationMenu (savedZips) {
     savedZips.forEach(entry => {            // for each zip, add to location menu list
         const newLine = document.createElement('li');
         newLine.classList.add('location');
-        newLine.textContent = entry.id;
+        newLine.textContent = `${entry.id} -- ${entry.geoData.name} `;
         newLine.addEventListener('click', (event) => {
-            displayZip(entry.id);
+            displayZip(entry.id, entry.geoData);
             fetchAndRender(entry.geoData);
         });
 
         const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'x';
+        deleteBtn.textContent = `x`;
         deleteBtn.value = entry.id;
         newLine.append(deleteBtn);
         deleteBtn.addEventListener('click', (event) => {
@@ -154,58 +170,6 @@ function renderLocationMenu (savedZips) {
 
         locationMenu.append(newLine);
     });
-}
-
-function toggleDisplay (element) {
-    if (element.classList.contains('hide')) {
-        element.classList.remove('hide');
-    } else {
-        element.classList.add('hide');
-    }
-}
-
-function displayZip (zipCode) {
-    locationBtnDiv.innerHTML = '';
-    locationBtnDiv.textContent = zipCode;
-}
-
-function fetchSavedLocations () {
-    return fetch('http://localhost:3000/zipcodes')     // get zip codes
-    .then(res => res.json());
-}
-
-function renderLocationMenu (savedZips) {
-    locationMenu.innerHTML = '<ul></ul>';   // clear any existing
-    savedZips.sort(function(a, b) {         // sort zip codes
-        return a.id - b.id;
-    });
-    savedZips.forEach(entry => {            // for each zip, add to location menu list
-        const newLine = document.createElement('li');
-        newLine.classList.add('location');
-        newLine.textContent = entry.id;
-        newLine.addEventListener('click', (event) => {
-            displayZip(entry.id);
-            fetchAndRender(entry.geoData);
-        });
-
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'x';
-        deleteBtn.value = entry.id;
-        newLine.append(deleteBtn);
-        deleteBtn.addEventListener('click', (event) => {
-            deleteLocation(event.target.value);
-        });
-
-        locationMenu.append(newLine);
-    });
-}
-
-function toggleDisplay (element) {
-    if (element.classList.contains('hide')) {
-        element.classList.remove('hide');
-    } else {
-        element.classList.add('hide');
-    }
 }
 
 function fetchAndRender (geoData) {
@@ -350,23 +314,26 @@ function displayDetails(data){
 
     img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     iconImg.append(img)
-    humidity.textContent = `Humidity: ${data.main.humidity}%`
-    highTemp.textContent = `High: ${data.main.temp_max} F`
-    lowTemp.textContent = `Low: ${data.main.temp_min} F`
-    feelsLike.textContent = `Feels Like: ${data.main.feels_like} F`
+    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`
+    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`
+    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`
+    lowTemp.id = 'loTemp'
+    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`
     weatherDescription.textContent = data.weather[0].description
-    temperature.textContent = `Temperature: ${data.main.temp} F`
+    temperature.textContent = `${Math.round(data.main.temp)} F`
+    temperature.id = 'temp';
     windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
 
     detailsCity.textContent = city;
-    detailsIcon.append(iconImg, weatherDescription);
+    detailsIcon.append(iconImg);
 
-    detailsList.append(humidity, highTemp, lowTemp, feelsLike, windSpeed, temperature);
+    detailsList.append(weatherDescription, temperature, feelsLike, highTemp, lowTemp,humidity, windSpeed);
 };
 
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
+    console.log(dayIndex)
     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
     displayDetails(dayForecast);
 });
@@ -421,6 +388,8 @@ function reduceHourlyForecastsToDay(weatherAry) {
     // get weather for middle entry
     const middle = Math.floor(numEntries / 2);
     dayForecast.weather = weatherAryCopy[middle].weather;
+    let iconCode = weatherAryCopy[middle].weather[0].icon
+    dayForecast.weather[0].icon = iconCode.slice(0, 2) + 'd';
     dayForecast.wind = weatherAryCopy[middle].wind;
 
     return dayForecast;
