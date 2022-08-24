@@ -17,9 +17,10 @@ body {
 }
 
 #wrapper {
-    width: 100%;
+    width: 68%;
     min-height: 100px;
     background: rgb(54, 69, 88);
+    margin: auto;
 }
 
 #logo {
@@ -28,6 +29,7 @@ body {
     min-height: 800px;
     background: rgb(54, 69, 88);
     text-align: center;
+    
     margin-bottom: 5px;
 }
 
@@ -38,46 +40,16 @@ body {
     background-color: rgb(54, 69, 88);
 }
 
-.column {
-    float: left;
-    width: 33.33%;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.left, .right {
-    width: 25%
-}
-
-.middle {
-    width: 50%;
-}
-
 #center {
     margin-top: 50px;                   
     border-style: solid;
     border-radius: 20px;
     border-width: 7px;
     border-color: rgb(199, 199, 199);
+    width: 50%;
     min-height: 700px;
     background-color: rgb(54, 69, 88);  
-
-}
-
-#right {
-    visibility: hidden;
-    min-height: 700px;
-    background-color: rgb(54, 69, 88);
-}
-
-#left {
-    visibility: hidden;
-    min-height: 700px;
-    background-color: rgb(54, 69, 88);
+    float:left;
 }
 
 #temp {                          /* new */
@@ -93,7 +65,7 @@ body {
     padding-top: 20px;
 }
 
-#rightTop {
+#rightTop, #left-top {
     min-height: 95px;                       
 }
 
@@ -105,25 +77,51 @@ body {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: rgb(54, 69, 88);
-    padding: 10px 0px;     
-    margin-right: 60%;                 
+    padding: 10px 0px;                      
 }
 
-#leftTop {
-    min-height: 95px;                       
-}
-
-#zipMenu {
-    list-style-type: none;
-    min-height: 605px;
+#scrollMenu {
+    height: 625px;
     border-style: solid;
     border-width: 7px 0px 7px 7px;
     border-color: rgb(199, 199, 199);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    background-color: aliceblue;
+}
+
+#location-header {
+    font-family: cursive;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 20px;
+    border-top-left-radius: 15px;
+    height: 75px;
     background-color: rgb(54, 69, 88);
-    padding: 10px 0px;      
-    margin-left: 50%;                
+}
+
+#location-menu {
+    list-style-type: none;
+    height: 447px;
+    border-style: solid;
+    border-width: 5px 0px 5px 5px;
+    border-color: rgb(54, 69, 88);
+    background-color: rgb(199, 199, 199);
+    overflow-y: auto;   /*new*/               
+}
+
+#newZip {
+    height: 89px;
+    text-align: center;
+    border-bottom-left-radius: 15px;
+    background-color: rgb(54, 69, 88);
+}
+
+#tryAnother {
+    font-family: cursive;
+    font-size: 20px;
+    padding-top: 6px;
+    padding-bottom: 10px;
 }
 
 .days {
@@ -135,8 +133,26 @@ body {
     line-height: 80px;
     text-align: center;
     margin: 16px 25px 16px 1px;
-    color: rgb(50, 50, 50);
+    color: rgb(54, 69, 88);
     cursor: pointer;
+}
+
+.location {
+    /* min-height: 50px; */
+    background-color: beige;
+    line-height: 30px;
+    text-align: center;
+    margin: 16px 0px;
+    color: rgb(54, 69, 88);
+    cursor: pointer;
+}
+
+#right, #left {
+    visibility: hidden;
+    width: 25%;
+    min-height: 700px;
+    background-color: rgb(54, 69, 88);
+    float: left;
 }
 
 #savedLocation {
@@ -155,9 +171,19 @@ body {
     background-color: rgb(54, 69, 88);
     margin: auto;
     font-size: 25px;
-    text-align: center;
+    /* text-align: center; */
     align-items: center;
     display: flex;
+}
+
+#details .container {
+    text-align: center;
+    align-items: center;
+    margin: auto;
+}
+
+#details-weather-icon {
+    padding: 1rem;
 }
 
 #details ul {
@@ -171,18 +197,19 @@ body {
     padding-top: 300px;
 }
 
-#toggleForecast {
+#forecast, #locations {
+    cursor: pointer;
     width: 100%;
     min-height: 50px;
     line-height: 50px;
     text-align: center;
 }
 
-#toggleZipcode {
-    width: 100%;
-    min-height: 50px;
-    line-height: 50px;
-    text-align: center;
+#toggleForecast, #toggle-locations {
+    background-color: aliceblue;
+    color: black;
+    border-radius: 0.5rem;
+    margin: 1rem;
 }
 
 #zipCode {
@@ -197,4 +224,22 @@ body {
     min-height: 50px;
     font-size: 35px;
     font-weight: bold;
+}
+
+#zipCode2 {
+    min-height: 20px;
+    width: 150px;
+    font-size: 15pt;
+    padding-bottom: 2px;
+    text-align: center;
+}
+
+#sub2 {
+    min-height: 29px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.hide {
+    display: none;
 }

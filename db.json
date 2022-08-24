@@ -1,52 +1,12 @@
 {
   "zipcodes": [
     {
-      "id": "20009",
-      "geoData": {
-        "zip": "20009",
-        "name": "Washington",
-        "lat": 38.9202,
-        "lon": -77.0375,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20003",
-      "geoData": {
-        "zip": "20003",
-        "name": "Washington",
-        "lat": 38.8829,
-        "lon": -76.9895,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20001",
-      "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
-        "country": "US"
-      }
-    },
-    {
       "id": "35578",
       "geoData": {
         "zip": "35578",
         "name": "Walker County",
         "lat": 33.9299,
         "lon": -87.4324,
-        "country": "US"
-      }
-    },
-    {
-      "id": "10001",
-      "geoData": {
-        "zip": "10001",
-        "name": "New York",
-        "lat": 40.7484,
-        "lon": -73.9967,
         "country": "US"
       }
     },
@@ -71,12 +31,62 @@
       }
     },
     {
-      "id": "15902",
+      "id": "20009",
       "geoData": {
-        "zip": "15902",
-        "name": "Johnstown",
-        "lat": 40.3078,
-        "lon": -78.8969,
+        "zip": "20009",
+        "name": "Washington",
+        "lat": 38.9202,
+        "lon": -77.0375,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20001",
+      "geoData": {
+        "zip": "20001",
+        "name": "Washington",
+        "lat": 38.9122,
+        "lon": -77.0177,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20010",
+      "geoData": {
+        "zip": "20010",
+        "name": "Washington",
+        "lat": 38.9327,
+        "lon": -77.0322,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20036",
+      "geoData": {
+        "zip": "20036",
+        "name": "Washington",
+        "lat": 38.9087,
+        "lon": -77.0414,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20030",
+      "geoData": {
+        "zip": "20030",
+        "name": "Washington",
+        "lat": 38.8933,
+        "lon": -77.0146,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35242",
+      "geoData": {
+        "zip": "35242",
+        "name": "Shelby County",
+        "lat": 33.3813,
+        "lon": -86.7046,
         "country": "US"
       }
     }

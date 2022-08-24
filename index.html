@@ -18,33 +18,41 @@
                     </form>
                 </div>
             </div>
-            <div id="main" class="row">
-                <div id="left" class="column">
-                    <div id="leftTop"></div>
-                    <ul id="zipMenu">
-                        <div id="savedLocation">
-                            <label for="favLocation"></label>
-                            <select name="favLocation" id="favLocation">
-                                <option value="">--Please choose a location--</option>
-                            </select>
+            <div id="main">
+                <div id="left">
+                    <div id="left-top"></div>
+                    <div id="scrollMenu">
+                        <div id="location-header">Previous Locations</div>
+                        <div id="location-menu"></div>
+                        <div id="newZip">
+                            <p id="tryAnother">Try another Zip Code</p>
+                            <form id="zip2">
+                                <label for="zipCode2"></label>
+                                <input type="text" id="zipCode2" name="zipCode2" placeholder="enter zip code"/>
+                                <input type="submit" id="sub2" value="   >   "/>
+                            </form>
                         </div>
-                    </ul>
-                    <div id="leftBottom"></div>
+                    </div>
+                    <div id="left-bottom"></div>
                 </div>
-                <div id="center" class="column">
-                    <div id="toggleZipcode">
-                        <button id="showZipcode">Select Zip Code</button>
+                <div id="center">
+                    <div id="locations">
+                        <div id="toggle-locations">[locations here]</div>
                     </div>
                     <div id="details">
-                        <ul>
-
-                        </ul>
+                        <div class="container">
+                            <div id="details-city-name"></div>
+                            <div id="details-weather-icon"></div>
+                            <div id="details-weather">
+                                <ul></ul>
+                            </div>
+                        </div>
                     </div>
-                    <div id="toggleForecast">
-                        <button id="showForecast">Show Forecast</button>
+                    <div id="forecast">
+                        <div id="toggleForecast">show forecast</div>
                     </div>
                 </div>
-                <div id="right" class="column">
+                <div id="right">
                     <div id="rightTop"></div>
                     <ul id="daysMenu"></ul>
                     <div id="rightBottom"></div>
