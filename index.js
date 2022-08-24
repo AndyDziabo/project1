@@ -12,6 +12,7 @@ const forecastMenu = document.querySelector('#daysMenu');
 const locationBtnDiv = document.querySelector('#toggle-locations');
 const locationMenu = document.querySelector('#location-menu');
 const zip = document.querySelector('#zip');
+const zip2 = document.querySelector('#zip2');
 
 
 
@@ -51,9 +52,6 @@ function toggleMain(){
     if (mainDiv.style.display === 'none') {
         mainDiv.style.display = 'block';
         logoDiv.style.display = 'none'
-    } else {
-        mainDiv.style.display = 'none';
-        logoDiv.style.display = 'block';
     }
 }
 
@@ -64,10 +62,14 @@ function toggleMain(){
 
 //Handles zip code form - Takes a zip code and returns the longitude and lattitude. Calls 'storeFavorites' to store 
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
-zip.addEventListener('submit', e => {
+zip2.addEventListener('submit', e => zipEntered(e));
+zip.addEventListener('submit', e => zipEntered(e));
+
+
+function zipEntered(e){
     e.preventDefault();
     const errorMessage = document.getElementById('errorDisplay');
-    inputZip = e.target.zipCode.value;
+    inputZip = e.target[0].value;
     inputZip = parseInt(inputZip);
     if(typeof inputZip !== 'number'){
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
@@ -100,7 +102,7 @@ zip.addEventListener('submit', e => {
     })
     .catch (error => console.log(error));
     }
-});
+};
 
 
 function displayZip (zipCode) {

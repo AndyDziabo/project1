@@ -89,6 +89,16 @@
         "lon": -86.7046,
         "country": "US"
       }
+    },
+    {
+      "id": "15946",
+      "geoData": {
+        "zip": "15946",
+        "name": "Portage Township",
+        "lat": 40.3724,
+        "lon": -78.6328,
+        "country": "US"
+      }
     }
   ]
 }
