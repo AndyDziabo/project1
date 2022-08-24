@@ -189,13 +189,13 @@ function renderLocationMenu (savedZips) {
             fetchAndRender(entry.geoData);
         });
 
-        // const deleteBtn = document.createElement('button');
-        // deleteBtn.textContent = 'x';
-        // deleteBtn.value = entry.id;
-        // newLine.append(deleteBtn);
-        // deleteBtn.addEventListener('click', (event) => {
-        //     deleteLocation(event.target.value);
-        // });
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'x';
+        deleteBtn.value = entry.id;
+        newLine.append(deleteBtn);
+        deleteBtn.addEventListener('click', (event) => {
+            deleteLocation(event.target.value);
+        });
 
         locationMenu.append(newLine);
     });
@@ -317,10 +317,10 @@ function deleteLocation (zipCode) {
     .then(res => res.json())
     .then(data => {
         fetchSavedLocations()
-        .then(savedZips => {console.log(savedZips[0].geoData)
+        .then(savedZips => {
             locationMenu.innerHTML = '<ul></ul>';
             renderLocationMenu(savedZips);
-            fetchAndRender(savedZips[0].geoData);
+            // fetchAndRender(savedZips[0].geoData);
         });
     });
 }

@@ -31,52 +31,12 @@
       }
     },
     {
-      "id": "27713",
-      "geoData": {
-        "zip": "27713",
-        "name": "Durham",
-        "lat": 35.9112,
-        "lon": -78.9178,
-        "country": "US"
-      }
-    },
-    {
-      "id": "07901",
-      "geoData": {
-        "zip": "07901",
-        "name": "Summit",
-        "lat": 40.7149,
-        "lon": -74.3642,
-        "country": "US"
-      }
-    },
-    {
       "id": "35246",
       "geoData": {
         "zip": "35246",
         "name": "Birmingham",
         "lat": 33.5207,
         "lon": -86.8025,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20036",
-      "geoData": {
-        "zip": "20036",
-        "name": "Washington",
-        "lat": 38.9087,
-        "lon": -77.0414,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20001",
-      "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
         "country": "US"
       }
     },
