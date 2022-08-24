@@ -41,22 +41,22 @@
       }
     },
     {
-      "id": "20036",
-      "geoData": {
-        "zip": "20036",
-        "name": "Washington",
-        "lat": 38.9087,
-        "lon": -77.0414,
-        "country": "US"
-      }
-    },
-    {
       "id": "20001",
       "geoData": {
         "zip": "20001",
         "name": "Washington",
         "lat": 38.9122,
         "lon": -77.0177,
+        "country": "US"
+      }
+    },
+    {
+      "id": "16630",
+      "geoData": {
+        "zip": "16630",
+        "name": "Cresson",
+        "lat": 40.4608,
+        "lon": -78.5861,
         "country": "US"
       }
     }
