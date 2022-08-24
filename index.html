@@ -16,12 +16,24 @@
                         <input type="text" id="zipCode" name="zipCode" placeholder="enter zip code"/>
                         <input type="submit" id="sub" value="   >   "/>
                     </form>
+                    <div id="errorDisplay"></div>
                 </div>
             </div>
             <div id="main">
                 <div id="left">
                     <div id="left-top"></div>
-                    <div id="location-menu"></div>
+                    <div id="scrollMenu">
+                        <div id="location-header">Previous Locations</div>
+                        <div id="location-menu"></div>
+                        <div id="newZip">
+                            <p id="tryAnother">Try another Zip Code</p>
+                            <form id="zip2">
+                                <label for="zipCode2"></label>
+                                <input type="text" id="zipCode2" name="zipCode2" placeholder="enter zip code"/>
+                                <input type="submit" id="sub2" value="   >   "/>
+                            </form>
+                        </div>
+                    </div>
                     <div id="left-bottom"></div>
                 </div>
                 <div id="center">

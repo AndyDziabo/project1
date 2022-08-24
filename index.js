@@ -12,11 +12,14 @@ const forecastMenu = document.querySelector('#daysMenu');
 const locationBtnDiv = document.querySelector('#toggle-locations');
 const locationMenu = document.querySelector('#location-menu');
 const zip = document.querySelector('#zip');
+const zip2 = document.querySelector('#zip2');
+
+
 
 
 // hide side menus
-document.getElementById('left').style.display = 'none';
-document.getElementById('right').style.display = 'none';
+document.getElementById('left').style.visibility = 'hidden';
+document.getElementById('right').style.visibility = 'hidden';
 document.getElementById('main').style.display = 'none';
 
 /////////////////////////
@@ -31,13 +34,13 @@ locationBtnDiv.addEventListener('click', e => toggleMenu('left'));
 
 function toggleMenu (divId) {
     let menu = document.getElementById(`${divId}`);
-    if (menu.style.display === 'none') {
-        menu.style.display = 'block';
+    if (menu.style.visibility === 'hidden') {
+        menu.style.visibility = 'visible';
         if (divId === 'right') {
             forecastBtnDiv.textContent = 'hide forecast';
         }
     } else {
-        menu.style.display = 'none';
+        menu.style.visibility = 'hidden';
         if (divId === 'right') {
             forecastBtnDiv.textContent = 'show forecast';
         }
@@ -49,7 +52,7 @@ function toggleMain(){
     const mainDiv = document.getElementById('main');
     if (mainDiv.style.display === 'none') {
         mainDiv.style.display = 'block';
-        logoDiv.style.display = 'none'
+        logoDiv.style.display = 'none';
     } else {
         mainDiv.style.display = 'none';
         logoDiv.style.display = 'block';
@@ -63,30 +66,104 @@ function toggleMain(){
 
 //Handles zip code form - Takes a zip code and returns the longitude and lattitude. Calls 'storeFavorites' to store 
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
-zip.addEventListener('submit', e => {
-    e.preventDefault();
+zip2.addEventListener('submit', e => zipEntered(e));
+zip.addEventListener('submit', e => zipEntered(e));
 
-    inputZip = e.target.zipCode.value;
-    
-    fetchCoordinatesByZip(inputZip)
-    .then (geoData => {
-        toggleMain();
-        displayZip(inputZip);
-        fetchAndRender(geoData);
-        fetchSavedLocations()
-        .then(savedZips => {
-            if (!savedZips.find(entry => entry.id === inputZip)) {
-                saveLocation(geoData);
-                savedZips.push({
-                    id: inputZip,
-                    geoData: geoData
-                });
+
+function zipEntered(e){
+    e.preventDefault();
+    const errorMessage = document.getElementById('errorDisplay');
+    inputZip = e.target[0].value;
+    if(typeof parseInt(inputZip) !== 'number'){
+        errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        setTimeout(function(){
+            errorMessage.innerText = '';
+        },2000);
+    }else if(inputZip.length !== 5){
+        errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        setTimeout(function(){
+            errorMessage.innerText = '';
+        },2000);
+    } else {
+        fetchCoordinatesByZip(inputZip)
+        .then(res => {
+            if (res.ok) {
+                return res.json()
             }
-            renderLocationMenu(savedZips);
+            throw new Error('Not a valid zip code')
+        })
+        .then (geoData => {
+            toggleMain();
+            displayZip(inputZip);
+            fetchAndRender(geoData);
+            fetchSavedLocations()
+            .then(savedZips => {
+                console.log(savedZips);
+                if (!savedZips.find(entry => entry.id === inputZip)) {
+                    saveLocation(geoData);
+                    savedZips.push({
+                        id: inputZip,
+                        geoData: geoData
+                    });
+                }
+                renderLocationMenu(savedZips);
+            });
+        })
+        .catch (error => {
+            console.log(error);     // TO-DO: check if handling error like this is ok
+            errorMessage.innerText = 'Not a valid Zip Code';
+            setTimeout(function(){
+                errorMessage.innerText = '';
+            },2000);
         });
-    })
-    .catch (error => console.log(error));
-});
+    }
+};
+
+
+function displayZip (zipCode) {
+    locationBtnDiv.innerHTML = '';
+    locationBtnDiv.textContent = zipCode;
+}
+
+function fetchSavedLocations () {
+    return fetch('http://localhost:3000/zipcodes')     // get zip codes
+    .then(res => res.json());
+}
+
+function renderLocationMenu (savedZips) {
+    locationMenu.innerHTML = '<ul></ul>';   // clear any existing
+    savedZips.sort(function(a, b) {         // sort zip codes
+        return a.id - b.id;
+    });
+    savedZips.forEach(entry => {            // for each zip, add to location menu list
+        const newLine = document.createElement('li');
+        newLine.classList.add('location');
+        newLine.textContent = entry.id;
+        newLine.addEventListener('click', (event) => {
+            displayZip(entry.id);
+            fetchAndRender(entry.geoData);
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'x';
+        deleteBtn.value = entry.id;
+        newLine.append(deleteBtn);
+        deleteBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            deleteLocation(event.target.value);
+        });
+
+        locationMenu.append(newLine);
+    });
+}
+
+function toggleDisplay (element) {
+    if (element.classList.contains('hide')) {
+        element.classList.remove('hide');
+    } else {
+        element.classList.add('hide');
+    }
+}
 
 function displayZip (zipCode) {
     locationBtnDiv.innerHTML = '';
@@ -156,15 +233,6 @@ function getSavedGeoData (zipCode) {
 // gets latitude & longitude using zip code
 function fetchCoordinatesByZip (zipCode) {
     return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
-    .then(res => {
-        if (res.ok) {
-            //city = res
-            return res.json()
-        }
-
-        throw new Error('Not a valid zip code');
-    })
-    .catch (error => console.log(error));
 }
 
 // gets current weather using latitude & longitude
@@ -245,7 +313,16 @@ function saveLocation (data) {
 }
 
 function deleteLocation (zipCode) {
-    fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'});
+    fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'})
+    .then(res => res.json())
+    .then(data => {
+        fetchSavedLocations()
+        .then(savedZips => {console.log(savedZips[0].geoData)
+            locationMenu.innerHTML = '<ul></ul>';
+            renderLocationMenu(savedZips);
+            fetchAndRender(savedZips[0].geoData);
+        });
+    });
 }
 
 
@@ -293,7 +370,10 @@ function displayDetails(data){
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
-    displayDetails(FORECAST_ARY[dayIndex][1])       // TO-DO : figure out how to consolidate the multiple forecasts for each day
+    // TO-DO : figure out how to consolidate the multiple forecasts for each day
+
+    // then call display details on new object
+    displayDetails(FORECAST_ARY[dayIndex][1])
 });
 
 //Changes the backgound image of the details based on the weather description

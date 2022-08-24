@@ -31,32 +31,32 @@
       }
     },
     {
-      "id": "20009",
+      "id": "27713",
       "geoData": {
-        "zip": "20009",
-        "name": "Washington",
-        "lat": 38.9202,
-        "lon": -77.0375,
+        "zip": "27713",
+        "name": "Durham",
+        "lat": 35.9112,
+        "lon": -78.9178,
         "country": "US"
       }
     },
     {
-      "id": "20001",
+      "id": "07901",
       "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
+        "zip": "07901",
+        "name": "Summit",
+        "lat": 40.7149,
+        "lon": -74.3642,
         "country": "US"
       }
     },
     {
-      "id": "20010",
+      "id": "35246",
       "geoData": {
-        "zip": "20010",
-        "name": "Washington",
-        "lat": 38.9327,
-        "lon": -77.0322,
+        "zip": "35246",
+        "name": "Birmingham",
+        "lat": 33.5207,
+        "lon": -86.8025,
         "country": "US"
       }
     },
@@ -71,22 +71,22 @@
       }
     },
     {
-      "id": "20030",
+      "id": "20001",
       "geoData": {
-        "zip": "20030",
+        "zip": "20001",
         "name": "Washington",
-        "lat": 38.8933,
-        "lon": -77.0146,
+        "lat": 38.9122,
+        "lon": -77.0177,
         "country": "US"
       }
     },
     {
-      "id": "35242",
+      "id": "20009",
       "geoData": {
-        "zip": "35242",
-        "name": "Shelby County",
-        "lat": 33.3813,
-        "lon": -86.7046,
+        "zip": "20009",
+        "name": "Washington",
+        "lat": 38.9202,
+        "lon": -77.0375,
         "country": "US"
       }
     }
