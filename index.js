@@ -70,55 +70,50 @@ function zipEntered(e){
     e.preventDefault();
     const errorMessage = document.getElementById('errorDisplay');
     inputZip = e.target[0].value;
-    inputZip = parseInt(inputZip);
-    if(typeof inputZip !== 'number'){
+    if(typeof parseInt(inputZip) !== 'number'){
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         setTimeout(function(){
             errorMessage.innerText = '';
         },2000);
-    }else if(inputZip.toString().length !== 5){
+    }else if(inputZip.length !== 5){
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         setTimeout(function(){
             errorMessage.innerText = '';
         },2000);
-    }else{
-    
-    fetchCoordinatesByZip(inputZip)
-    .then(res => {
-        if (res.ok) {
-            //city = res
-            return res.json()
-        
-            //.catch (error => console.log(error));
-            .then (geoData => {
-                toggleMain();
-                displayZip(inputZip);
-                fetchAndRender(geoData);
-                fetchSavedLocations()
-                .then(savedZips => {
+    } else {
+        fetchCoordinatesByZip(inputZip)
+        .then(res => {
+            if (res.ok) {
+                //city = res
+                return res.json()
+                //.catch (error => console.log(error));
+            }
+            throw new Error('Not a valid zip code')
+        })
+        .then (geoData => {
+            toggleMain();
+            displayZip(inputZip);
+            fetchAndRender(geoData);
+            fetchSavedLocations()
+            .then(savedZips => {
+                console.log(savedZips);
                 if (!savedZips.find(entry => entry.id === inputZip)) {
                     saveLocation(geoData);
                     savedZips.push({
                         id: inputZip,
                         geoData: geoData
-                        });
-                    }
-                    renderLocationMenu(savedZips);
-                });
-            })
-            
-        }
-        throw new Error('Not a valid zip code');
-    })
-    .catch (error => {
-        errorMessage.innerText = 'Not a valid Zip Code';
-        setTimeout(function(){
-            errorMessage.innerText = '';
-        },2000);
-    });
-
-
-}
+                    });
+                }
+                renderLocationMenu(savedZips);
+            });
+        })
+        .catch (error => {
+            errorMessage.innerText = 'Not a valid Zip Code';
+            setTimeout(function(){
+                errorMessage.innerText = '';
+            },2000);
+        });
+    }
 };
 
 
