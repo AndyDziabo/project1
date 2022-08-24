@@ -66,8 +66,20 @@ function toggleMain(){
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
 zip.addEventListener('submit', e => {
     e.preventDefault();
-
+    const errorMessage = document.getElementById('errorDisplay');
     inputZip = e.target.zipCode.value;
+    inputZip = parseInt(inputZip);
+    if(typeof inputZip !== 'number'){
+        errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        setTimeout(function(){
+            errorMessage.innerText = '';
+        },2000);
+    }else if(inputZip.toString().length !== 5){
+        errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        setTimeout(function(){
+            errorMessage.innerText = '';
+        },2000);
+    }else{
     
     fetchCoordinatesByZip(inputZip)
     .then (geoData => {
@@ -87,7 +99,9 @@ zip.addEventListener('submit', e => {
         });
     })
     .catch (error => console.log(error));
+    }
 });
+
 
 function displayZip (zipCode) {
     locationBtnDiv.innerHTML = '';

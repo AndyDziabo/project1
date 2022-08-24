@@ -10,7 +10,7 @@ body {
     color: aliceblue;
 }
 
-#check {
+#check, #errorDisplay {
     font-family: cursive;
     font-size: 40px;
     padding-bottom: 25px;
