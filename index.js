@@ -16,6 +16,7 @@ const zip2 = document.querySelector('#zip2');
 
 
 
+
 // hide side menus
 document.getElementById('left').style.visibility = 'hidden';
 document.getElementById('right').style.visibility = 'hidden';
@@ -51,7 +52,10 @@ function toggleMain(){
     const mainDiv = document.getElementById('main');
     if (mainDiv.style.display === 'none') {
         mainDiv.style.display = 'block';
-        logoDiv.style.display = 'none'
+        logoDiv.style.display = 'none';
+    } else {
+        mainDiv.style.display = 'none';
+        logoDiv.style.display = 'block';
     }
 }
 
@@ -94,7 +98,6 @@ function zipEntered(e){
             fetchAndRender(geoData);
             fetchSavedLocations()
             .then(savedZips => {
-                console.log(savedZips);
                 if (!savedZips.find(entry => entry.id === inputZip)) {
                     saveLocation(geoData);
                     savedZips.push({
@@ -146,6 +149,50 @@ function renderLocationMenu (savedZips) {
         newLine.append(deleteBtn);
         deleteBtn.addEventListener('click', (event) => {
             event.stopPropagation();
+            deleteLocation(event.target.value);
+        });
+
+        locationMenu.append(newLine);
+    });
+}
+
+function toggleDisplay (element) {
+    if (element.classList.contains('hide')) {
+        element.classList.remove('hide');
+    } else {
+        element.classList.add('hide');
+    }
+}
+
+function displayZip (zipCode) {
+    locationBtnDiv.innerHTML = '';
+    locationBtnDiv.textContent = zipCode;
+}
+
+function fetchSavedLocations () {
+    return fetch('http://localhost:3000/zipcodes')     // get zip codes
+    .then(res => res.json());
+}
+
+function renderLocationMenu (savedZips) {
+    locationMenu.innerHTML = '<ul></ul>';   // clear any existing
+    savedZips.sort(function(a, b) {         // sort zip codes
+        return a.id - b.id;
+    });
+    savedZips.forEach(entry => {            // for each zip, add to location menu list
+        const newLine = document.createElement('li');
+        newLine.classList.add('location');
+        newLine.textContent = entry.id;
+        newLine.addEventListener('click', (event) => {
+            displayZip(entry.id);
+            fetchAndRender(entry.geoData);
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'x';
+        deleteBtn.value = entry.id;
+        newLine.append(deleteBtn);
+        deleteBtn.addEventListener('click', (event) => {
             deleteLocation(event.target.value);
         });
 
@@ -266,13 +313,11 @@ function saveLocation (data) {
 
 function deleteLocation (zipCode) {
     fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'})
-    .then(res => res.json())
-    .then(data => {
+    .then(() => {
         fetchSavedLocations()
-        .then(savedZips => {console.log(savedZips[0].geoData)
-            locationMenu.innerHTML = '<ul></ul>';
+        .then(savedZips => {
             renderLocationMenu(savedZips);
-            fetchAndRender(savedZips[0].geoData);
+            // fetchAndRender(savedZips[0].geoData);
         });
     });
 }
@@ -322,11 +367,64 @@ function displayDetails(data){
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
-    // TO-DO : figure out how to consolidate the multiple forecasts for each day
-
-    // then call display details on new object
-    displayDetails(FORECAST_ARY[dayIndex][1])
+    const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
+    displayDetails(dayForecast);
 });
+
+function reduceHourlyForecastsToDay(weatherAry) {
+
+    // copy passed array & remove first element
+    let weatherAryCopy = weatherAry.map(ele => ele);
+    weatherAryCopy.shift();
+
+    // create return object
+    let dayForecast = {};
+
+    // set timestamp to noon of day
+    let timestamp = new Date(weatherAryCopy[0].dt * 1000);
+    timestamp.setHours(12, 0, 0);
+    dayForecast.dt =  Math.floor(timestamp.getTime() / 1000);
+
+    // get values
+    let lowestLow = 100;
+    let highestHigh = -100;
+    let tempSum = 0;
+    let humiditySum = 0;
+    let feelsLikeSum = 0;
+    weatherAryCopy.forEach(entry => {
+        // add temperature to sum total for averaging
+        tempSum += entry.main.temp;
+        // find lowest low for day
+        const minTemp = entry.main.temp_min;
+        if (minTemp < lowestLow) {lowestLow = minTemp}
+        // find highest high for day
+        const maxTemp = entry.main.temp_max;
+        if (maxTemp > highestHigh) {highestHigh = maxTemp};
+        // add humidity to sum total for averaging
+        humiditySum += entry.main.humidity;
+        // add feels like to sum total for averaging
+        feelsLikeSum += entry.main.feels_like;
+    });
+    const numEntries = weatherAryCopy.length;
+    const tempAvg = tempSum / numEntries;
+    const humidityAvg = humiditySum / numEntries;
+    const feelsLikeAvg = feelsLikeSum / numEntries;
+
+    // set values
+    dayForecast.main = {};
+    dayForecast.main.humidity = humidityAvg;
+    dayForecast.main.temp = tempAvg;
+    dayForecast.main.temp_max = highestHigh;
+    dayForecast.main.temp_min = lowestLow;
+    dayForecast.main.feels_like = feelsLikeAvg;
+
+    // get weather for middle entry
+    const middle = Math.floor(numEntries / 2);
+    dayForecast.weather = weatherAryCopy[middle].weather;
+    dayForecast.wind = weatherAryCopy[middle].wind;
+
+    return dayForecast;
+}
 
 //Changes the backgound image of the details based on the weather description
 function changeBackground (id) {
