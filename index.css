@@ -37,6 +37,7 @@ body {
     display: none;
     width: 100%;
     min-height: 1000px;
+    min-width: 820px;
     background-color: rgb(54, 69, 88);
 }
 
