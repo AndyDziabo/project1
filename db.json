@@ -11,26 +11,6 @@
       }
     },
     {
-      "id": "35242",
-      "geoData": {
-        "zip": "35242",
-        "name": "Shelby County",
-        "lat": 33.3813,
-        "lon": -86.7046,
-        "country": "US"
-      }
-    },
-    {
-      "id": "16630",
-      "geoData": {
-        "zip": "16630",
-        "name": "Cresson",
-        "lat": 40.4608,
-        "lon": -78.5861,
-        "country": "US"
-      }
-    },
-    {
       "id": "27713",
       "geoData": {
         "zip": "27713",
@@ -47,6 +27,36 @@
         "name": "Summit",
         "lat": 40.7149,
         "lon": -74.3642,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35246",
+      "geoData": {
+        "zip": "35246",
+        "name": "Birmingham",
+        "lat": 33.5207,
+        "lon": -86.8025,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20036",
+      "geoData": {
+        "zip": "20036",
+        "name": "Washington",
+        "lat": 38.9087,
+        "lon": -77.0414,
+        "country": "US"
+      }
+    },
+    {
+      "id": "20001",
+      "geoData": {
+        "zip": "20001",
+        "name": "Washington",
+        "lat": 38.9122,
+        "lon": -77.0177,
         "country": "US"
       }
     }
