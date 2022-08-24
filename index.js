@@ -84,24 +84,41 @@ function zipEntered(e){
     }else{
     
     fetchCoordinatesByZip(inputZip)
-    .then (geoData => {
-        toggleMain();
-        displayZip(inputZip);
-        fetchAndRender(geoData);
-        fetchSavedLocations()
-        .then(savedZips => {
-            if (!savedZips.find(entry => entry.id === inputZip)) {
-                saveLocation(geoData);
-                savedZips.push({
-                    id: inputZip,
-                    geoData: geoData
+    .then(res => {
+        if (res.ok) {
+            //city = res
+            return res.json()
+        
+            //.catch (error => console.log(error));
+            .then (geoData => {
+                toggleMain();
+                displayZip(inputZip);
+                fetchAndRender(geoData);
+                fetchSavedLocations()
+                .then(savedZips => {
+                if (!savedZips.find(entry => entry.id === inputZip)) {
+                    saveLocation(geoData);
+                    savedZips.push({
+                        id: inputZip,
+                        geoData: geoData
+                        });
+                    }
+                    renderLocationMenu(savedZips);
                 });
-            }
-            renderLocationMenu(savedZips);
-        });
+            })
+            
+        }
+        throw new Error('Not a valid zip code');
     })
-    .catch (error => console.log(error));
-    }
+    .catch (error => {
+        errorMessage.innerText = 'Not a valid Zip Code';
+        setTimeout(function(){
+            errorMessage.innerText = '';
+        },2000);
+    });
+
+
+}
 };
 
 
@@ -174,15 +191,15 @@ function getSavedGeoData (zipCode) {
 // gets latitude & longitude using zip code
 function fetchCoordinatesByZip (zipCode) {
     return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
-    .then(res => {
-        if (res.ok) {
-            //city = res
-            return res.json()
-        }
+    // .then(res => {
+    //     if (res.ok) {
+    //         //city = res
+    //         return res.json()
+    //     }
 
-        throw new Error('Not a valid zip code');
-    })
-    .catch (error => console.log(error));
+    //     throw new Error('Not a valid zip code');
+    // })
+    // .catch (error => console.log(error));
 }
 
 // gets current weather using latitude & longitude
