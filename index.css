@@ -49,9 +49,9 @@ body {
 }
 
 #scrollMenu {
-    height: 625px;
+    height: 621px;
     border-style: solid;
-    border-width: 7px 0px 7px 7px;
+    border-width: 5px 0px 5px 5px;
     border-color: rgb(199, 199, 199);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -69,7 +69,7 @@ body {
     margin-top: 50px;                   
     border-style: solid;
     border-radius: 20px;
-    border-width: 7px;
+    border-width: 5px;
     border-color: rgb(199, 199, 199);
     width: 50%;
     min-height: 700px;
@@ -133,7 +133,7 @@ body {
 #daysMenu {
     list-style-type: none;
     border-style: solid;
-    border-width: 7px 7px 7px 0px;
+    border-width: 5px 5px 5px 0px;
     border-color: rgb(199, 199, 199);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -146,6 +146,7 @@ body {
     font-family: cursive;
     font-size: 40px;
     padding-bottom: 25px;
+    filter: drop-shadow(5px 5px 8px #000000);
 }
 
 #location-header {
@@ -187,12 +188,14 @@ body {
     font-size: 20pt;
     padding-top: 7px;
     text-align: center;
+    filter: drop-shadow(2px 2px 7px #000000);
 }
 
 #sub {
     min-height: 50px;
     font-size: 35px;
     font-weight: bold;
+    filter: drop-shadow(2px 2px 7px #000000);
 }
 
 #zipCode2 {
