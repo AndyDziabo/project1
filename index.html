@@ -5,6 +5,10 @@
         <link rel="stylesheet" href="index.css" />
         <script src="keys.js"></script>
         <script defer src="index.js"></script>
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Barlow&family=Work+Sans&display=swap" rel="stylesheet">
     </head>
     <body>
         <div id="wrapper">
@@ -16,18 +20,29 @@
                         <input type="text" id="zipCode" name="zipCode" placeholder="enter zip code"/>
                         <input type="submit" id="sub" value="   >   "/>
                     </form>
+                    <div id="errorDisplay"></div>
                 </div>
             </div>
             <div id="main">
                 <div id="left">
-                    <div class="container">
-                        <div id="savedLocation">
-                            <ul></ul>
-                            <!-- <label for="favLocation"></label>
-                            <select name="favLocation" id="favLocation">
-                                <option value="">--Please choose a location--</option>
-                            </select> -->
+                    <div id="left-top"></div>
+                    <div id="scrollMenu">
+                        <div id="location-header">Previous Locations</div>
+                        <div id="location-menu"></div>
+                        <div id="newZip">
+                            <p id="tryAnother">Try another Zip Code</p>
+                            <form id="zip2">
+                                <label for="zipCode2"></label>
+                                <input type="text" id="zipCode2" name="zipCode2" placeholder="enter zip code"/>
+                                <input type="submit" id="sub2" value="   >   "/>
+                            </form>
                         </div>
+                    </div>
+                    <div id="left-bottom"></div>
+                </div>
+                <div id="center">
+                    <div id="locations">
+                        <div id="toggle-locations">[locations here]</div>
                     </div>
                     <div id="details">
                         <div class="container">
