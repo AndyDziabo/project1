@@ -162,7 +162,7 @@ function fetchAndRender (geoData) {
     fetchForecastByLatLon(geoData.lat, geoData.lon)
         .then(forecastData => {
             storeForecast(forecastData);
-            renderForecastMenu();
+            renderForecastMenu(geoData);
         });
 
 }
@@ -201,7 +201,7 @@ function renderLocationMenu (savedZips) {
     });
 }
 
-function renderForecastMenu () {
+function renderForecastMenu (geoData) {
     forecastMenu.innerHTML = '<ul></ul>';    // clear any existing
 
     FORECAST_ARY.forEach((day, index) => {
@@ -212,7 +212,7 @@ function renderForecastMenu () {
 
         switch (index) {
             case 0:
-                nextDay.textContent = 'today';
+                nextDay.textContent = 'current';
                 break;
             case 1:
                 nextDay.textContent = 'tomorrow';
@@ -226,8 +226,13 @@ function renderForecastMenu () {
 
         nextDay.addEventListener('click', e => {
             const dayIndex = e.target.value;
-            const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
-            displayDetails(dayForecast);
+            if (dayIndex === 0) {   // display current for today
+                fetchWeatherByLatLon(geoData.lat, geoData.lon)
+                .then(weatherData => displayDetails(weatherData));
+            } else {                // display summary for forecast future
+                const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
+                displayDetails(dayForecast);
+            }
         });
 
     });

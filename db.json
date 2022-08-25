@@ -1,26 +1,6 @@
 {
   "zipcodes": [
     {
-      "id": "07901",
-      "geoData": {
-        "zip": "07901",
-        "name": "Summit",
-        "lat": 40.7149,
-        "lon": -74.3642,
-        "country": "US"
-      }
-    },
-    {
-      "id": "15902",
-      "geoData": {
-        "zip": "15902",
-        "name": "Johnstown",
-        "lat": 40.3078,
-        "lon": -78.8969,
-        "country": "US"
-      }
-    },
-    {
       "id": "20009",
       "geoData": {
         "zip": "20009",
@@ -31,12 +11,22 @@
       }
     },
     {
-      "id": "27715",
+      "id": "35242",
       "geoData": {
-        "zip": "27715",
-        "name": "Durham",
-        "lat": 36.0512,
-        "lon": -78.8577,
+        "zip": "35242",
+        "name": "Shelby County",
+        "lat": 33.3813,
+        "lon": -86.7046,
+        "country": "US"
+      }
+    },
+    {
+      "id": "35244",
+      "geoData": {
+        "zip": "35244",
+        "name": "Hoover",
+        "lat": 33.3538,
+        "lon": -86.8254,
         "country": "US"
       }
     },
@@ -61,42 +51,12 @@
       }
     },
     {
-      "id": "63755",
+      "id": "90103",
       "geoData": {
-        "zip": "63755",
-        "name": "Jackson",
-        "lat": 37.3879,
-        "lon": -89.6519,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20001",
-      "geoData": {
-        "zip": "20001",
-        "name": "Washington",
-        "lat": 38.9122,
-        "lon": -77.0177,
-        "country": "US"
-      }
-    },
-    {
-      "id": "20003",
-      "geoData": {
-        "zip": "20003",
-        "name": "Washington",
-        "lat": 38.8829,
-        "lon": -76.9895,
-        "country": "US"
-      }
-    },
-    {
-      "id": "35244",
-      "geoData": {
-        "zip": "35244",
-        "name": "Hoover",
-        "lat": 33.3538,
-        "lon": -86.8254,
+        "zip": "90103",
+        "name": "Commerce",
+        "lat": 33.99,
+        "lon": -118.16,
         "country": "US"
       }
     }
