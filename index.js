@@ -224,15 +224,21 @@ function renderForecastMenu () {
 
         forecastMenu.appendChild(nextDay);
 
+        nextDay.addEventListener('click', e => {
+            const dayIndex = e.target.value;
+            const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
+            displayDetails(dayForecast);
+        });
+
     });
 }
 
 // Add listener to select day from forecast menu
-forecastMenu.addEventListener('click', e => {
-    const dayIndex = e.target.value;
-    const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
-    displayDetails(dayForecast);
-});
+// forecastMenu.addEventListener('click', e => {
+//     const dayIndex = e.target.value;
+//     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
+//     displayDetails(dayForecast);
+// });
 
 
 
