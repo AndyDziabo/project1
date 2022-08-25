@@ -233,13 +233,6 @@ function renderForecastMenu () {
     });
 }
 
-// Add listener to select day from forecast menu
-// forecastMenu.addEventListener('click', e => {
-//     const dayIndex = e.target.value;
-//     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
-//     displayDetails(dayForecast);
-// });
-
 
 
 ////////////////////////////
@@ -445,13 +438,6 @@ function fetchSavedLocations () {
     return fetch('http://localhost:3000/zipcodes')
     .then(res => res.json());
 }
-
-// BVC : Looks like getSavedGeoData isn't called anywhere, consider deleting
-
-// function getSavedGeoData (zipCode) {
-//     return fetch(`http://localhost:3000/zipcodes/${zipCode}`)
-//     .then (response => response.json());
-// }
 
 function saveLocation (data) {
     const zipCodeGeoData = {
