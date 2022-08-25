@@ -177,7 +177,8 @@ function renderLocationMenu (savedZips) {
 
         const newLine = document.createElement('li');
         newLine.classList.add('location');
-        newLine.textContent = `${entry.id} -- ${entry.geoData.name} `;
+        const newSpan = document.createElement('span');
+        newSpan.textContent = `${entry.id} -- ${entry.geoData.name} `;
 
         newLine.addEventListener('click', (event) => {
             displayZip(entry.id, entry.geoData);
@@ -193,7 +194,7 @@ function renderLocationMenu (savedZips) {
             deleteLocation(event.target.value);
         });
 
-        newLine.append(deleteBtn);
+        newLine.append(deleteBtn, newSpan);
         locationMenu.append(newLine);
 
     });
