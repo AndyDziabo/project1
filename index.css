@@ -1,7 +1,6 @@
 * {
     margin: 0px;
     padding: 0px;
-    font-family: Arial;
     box-sizing: border-box;
 }
 
@@ -10,6 +9,16 @@ body {
     background-color: rgb(68,68,247);
     background-repeat: no-repeat;
     color: rgb(255, 240, 240);
+}
+
+/* Fonts */
+
+* {
+    font-family: 'Barlow', sans-serif;
+}
+
+#check, #errorDisplay, #location-header, #left-bottom, #tryAnother {
+    font-family: 'Work Sans', serif;
 }
 
 /* Containers */
@@ -143,14 +152,14 @@ body {
 
 /* text containing */
 #check, #errorDisplay {
-    font-family: cursive;
+    /* font-family: cursive; */
     font-size: 40px;
     padding-bottom: 25px;
     filter: drop-shadow(5px 5px 8px #000000);
 }
 
 #location-header {
-    font-family: cursive;
+    /* font-family: cursive; */
     font-size: 25px;
     text-align: center;
     padding-top: 20px;
@@ -167,7 +176,7 @@ body {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: rgb(36, 75, 125);
-    font-family: cursive;
+    /* font-family: cursive; */
     text-align: center;
     min-height: 70px;
     margin: 0px 10px 0px 20px;
@@ -175,7 +184,7 @@ body {
 }
 
 #tryAnother {
-    font-family: cursive;
+    /* font-family: cursive; */
     font-size: 20px;
     padding-top: 6px;
     padding-bottom: 10px;
