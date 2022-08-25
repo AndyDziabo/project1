@@ -73,16 +73,24 @@ zip.addEventListener('submit', e => zipEntered(e));
 function zipEntered(e){
     e.preventDefault();
     const errorMessage = document.getElementById('errorDisplay');
+    const innerErrMessage = document.getElementById('left-bottom');
+
     inputZip = e.target[0].value;
     if(typeof parseInt(inputZip) !== 'number'){
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        innerErrMessage.style.visibility = 'visible';
+        innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
         setTimeout(function(){
             errorMessage.innerText = '';
+            innerErrMessage.style.visibility = 'hidden';
         },2000);
     }else if(inputZip.length !== 5){
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
+        innerErrMessage.style.visibility = 'visible';
+        innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
         setTimeout(function(){
             errorMessage.innerText = '';
+            innerErrMessage.style.visibility = 'hidden';
         },2000);
     } else {
         fetchCoordinatesByZip(inputZip)
@@ -98,7 +106,6 @@ function zipEntered(e){
             fetchAndRender(geoData);
             fetchSavedLocations()
             .then(savedZips => {
-                console.log(!savedZips.find(entry => entry.id === inputZip))
                 if (!savedZips.find(entry => entry.id === inputZip)) {
                     saveLocation(geoData);
                     savedZips.push({
@@ -113,8 +120,11 @@ function zipEntered(e){
         .catch (error => {
             console.log(error);     // TO-DO: check if handling error like this is ok
             errorMessage.innerText = 'Not a valid Zip Code';
+            innerErrMessage.style.visibility = 'visible';
+            innerErrMessage.innerText = 'Not a valid Zip Code';
             setTimeout(function(){
                 errorMessage.innerText = '';
+                innerErrMessage.style.visibility = 'hidden';
             },2000);
         });
     }
@@ -145,7 +155,6 @@ function displayZip(zipCode, zipData) {
 }
 
 function renderLocationMenu (savedZips) {
-    console.log('here')
     locationMenu.innerHTML = '<ul></ul>';   // clear any existing
     savedZips.sort(function(a, b) {         // sort zip codes
         return a.id - b.id;
