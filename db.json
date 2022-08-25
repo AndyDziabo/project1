@@ -11,6 +11,16 @@
       }
     },
     {
+      "id": "15902",
+      "geoData": {
+        "zip": "15902",
+        "name": "Johnstown",
+        "lat": 40.3078,
+        "lon": -78.8969,
+        "country": "US"
+      }
+    },
+    {
       "id": "20009",
       "geoData": {
         "zip": "20009",
@@ -21,12 +31,42 @@
       }
     },
     {
-      "id": "15946",
+      "id": "27715",
       "geoData": {
-        "zip": "15946",
-        "name": "Portage Township",
-        "lat": 40.3724,
-        "lon": -78.6328,
+        "zip": "27715",
+        "name": "Durham",
+        "lat": 36.0512,
+        "lon": -78.8577,
+        "country": "US"
+      }
+    },
+    {
+      "id": "90101",
+      "geoData": {
+        "zip": "90101",
+        "name": "Commerce",
+        "lat": 33.99,
+        "lon": -118.16,
+        "country": "US"
+      }
+    },
+    {
+      "id": "90102",
+      "geoData": {
+        "zip": "90102",
+        "name": "Commerce",
+        "lat": 34.01,
+        "lon": -118.19,
+        "country": "US"
+      }
+    },
+    {
+      "id": "63755",
+      "geoData": {
+        "zip": "63755",
+        "name": "Jackson",
+        "lat": 37.3879,
+        "lon": -89.6519,
         "country": "US"
       }
     },
@@ -41,22 +81,22 @@
       }
     },
     {
-      "id": "15902",
+      "id": "20003",
       "geoData": {
-        "zip": "15902",
-        "name": "Johnstown",
-        "lat": 40.3078,
-        "lon": -78.8969,
+        "zip": "20003",
+        "name": "Washington",
+        "lat": 38.8829,
+        "lon": -76.9895,
         "country": "US"
       }
     },
     {
-      "id": "16630",
+      "id": "35244",
       "geoData": {
-        "zip": "16630",
-        "name": "Cresson",
-        "lat": 40.4608,
-        "lon": -78.5861,
+        "zip": "35244",
+        "name": "Hoover",
+        "lat": 33.3538,
+        "lon": -86.8254,
         "country": "US"
       }
     }

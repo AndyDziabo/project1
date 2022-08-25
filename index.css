@@ -236,7 +236,7 @@ body {
 
 .location {
     background-color: beige;
-    line-height: 30px;
+    line-height: 35px;
     text-align: center;
     margin: 16px 0px;
     color: rgb(54, 69, 88);
@@ -253,7 +253,8 @@ body {
 li.location button {
     width: 1rem;
     float: left;
-    margin: 5px 5px;
+    margin: 5px;
+    text-align: center;
 }
 
 /* Button hovers */

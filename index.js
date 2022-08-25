@@ -142,6 +142,7 @@ function zipEntered(e){
             },2000);
         });
     }
+    e.target.querySelector('input[type="text"]').value = '';   // reset field
 };
 
 
@@ -186,7 +187,7 @@ function renderLocationMenu (savedZips) {
         });
 
         const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = `x`;
+        deleteBtn.textContent = `X`;
         deleteBtn.value = entry.id;
 
         deleteBtn.addEventListener('click', (event) => {
