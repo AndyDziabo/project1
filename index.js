@@ -116,6 +116,7 @@ function zipEntered(e){
             throw new Error('Not a valid zip code');
         })
         .then (geoData => {
+            console.log(geoData);
             toggleMain();
             displayZip(INPUT_ZIP, geoData);
             fetchAndRender(geoData);
@@ -155,12 +156,14 @@ function fetchAndRender (geoData) {
 
     fetchWeatherByLatLon(geoData.lat, geoData.lon)
         .then(weatherData => {
+            console.log(weatherData);
             CITY = weatherData.name;
             displayDetails(weatherData);
         });
 
     fetchForecastByLatLon(geoData.lat, geoData.lon)
         .then(forecastData => {
+            console.log(forecastData);
             storeForecast(forecastData);
             renderForecastMenu(geoData);
         });
