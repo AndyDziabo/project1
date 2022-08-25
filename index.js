@@ -1,12 +1,14 @@
 // GLOBAL VARIABLES
 let city;
 let inputZip;
-
 let FORECAST_ARY = [
     [], [], [], [], [], []  // forecast for today + 5 days
 ];
 
 // HTML ELEMENTS
+const detailsCity = document.getElementById('details-city-name');
+const detailsIcon = document.getElementById('details-weather-icon');
+const detailsList = document.querySelector('#details ul');
 const forecastBtnDiv = document.querySelector('#toggleForecast');
 const forecastMenu = document.querySelector('#daysMenu');
 const locationBtnDiv = document.querySelector('#toggle-locations');
@@ -15,16 +17,15 @@ const zip = document.querySelector('#zip');
 const zip2 = document.querySelector('#zip2');
 
 
-
-
 // hide side menus
 document.getElementById('left').style.visibility = 'hidden';
 document.getElementById('right').style.visibility = 'hidden';
 document.getElementById('main').style.display = 'none';
 
+
 /////////////////////////
 //HTML Element Toggling//
-////////////////////////
+/////////////////////////
 
 //Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
 //form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
@@ -47,16 +48,13 @@ function toggleMenu (divId) {
     }
 }
 
-function toggleMain(){
+function toggleMain () {
     const logoDiv = document.getElementById('logo');
     const mainDiv = document.getElementById('main');
     if (mainDiv.style.display === 'none') {
         mainDiv.style.display = 'block';
         logoDiv.style.display = 'none';
-    }// else {
-    //     mainDiv.style.display = 'none';
-    //     logoDiv.style.display = 'block';
-    // }
+    }
 }
 
 
@@ -69,41 +67,52 @@ function toggleMain(){
 zip2.addEventListener('submit', e => zipEntered(e));
 zip.addEventListener('submit', e => zipEntered(e));
 
-
 function zipEntered(e){
     e.preventDefault();
     const errorMessage = document.getElementById('errorDisplay');
     const innerErrMessage = document.getElementById('left-bottom');
 
     inputZip = e.target[0].value;
-    if(typeof parseInt(inputZip) !== 'number'){
+
+    if (typeof parseInt(inputZip) !== 'number') {
+
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         innerErrMessage.style.visibility = 'visible';
         innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
+
         setTimeout(function(){
             errorMessage.innerText = '';
             innerErrMessage.style.visibility = 'hidden';
         },2000);
-    }else if(inputZip.length !== 5){
+
+    } else if (inputZip.length !== 5) {
+
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         innerErrMessage.style.visibility = 'visible';
         innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
+
         setTimeout(function(){
             errorMessage.innerText = '';
             innerErrMessage.style.visibility = 'hidden';
         },2000);
+
     } else {
+
         fetchCoordinatesByZip(inputZip)
+
         .then(res => {
             if (res.ok) {
-                return res.json()
+                return res.json();
             }
-            throw new Error('Not a valid zip code')
+            throw new Error('Not a valid zip code');
         })
+
         .then (geoData => {
+
             toggleMain();
             displayZip(inputZip, geoData);
             fetchAndRender(geoData);
+
             fetchSavedLocations()
             .then(savedZips => {
                 if (!savedZips.find(entry => entry.id === inputZip)) {
@@ -113,25 +122,29 @@ function zipEntered(e){
                         geoData: geoData
                     });
                 }
-             
                 renderLocationMenu(savedZips);
             });
+
         })
+
         .catch (error => {
+
             console.log(error);     // TO-DO: check if handling error like this is ok
             errorMessage.innerText = 'Not a valid Zip Code';
             innerErrMessage.style.visibility = 'visible';
             innerErrMessage.innerText = 'Not a valid Zip Code';
+
             setTimeout(function(){
                 errorMessage.innerText = '';
                 innerErrMessage.style.visibility = 'hidden';
             },2000);
+
         });
     }
 };
 
 function fetchSavedLocations () {
-    return fetch('http://localhost:3000/zipcodes')     // get zip codes
+    return fetch('http://localhost:3000/zipcodes')
     .then(res => res.json());
 }
 
@@ -146,23 +159,25 @@ function toggleDisplay (element) {
 function displayZip(zipCode, zipData) {
     locationBtnDiv.innerHTML = '';
     locationBtnDiv.textContent = zipCode;
-    // console.log(zipData);
-    // console.log(zipData)
 
-    if(typeof zipData !== 'undefined'){
-        locationBtnDiv.textContent += ` -- ${zipData.name}`
+    if (typeof zipData !== 'undefined') {
+        locationBtnDiv.textContent += ` -- ${zipData.name}`;
     }
 }
 
 function renderLocationMenu (savedZips) {
     locationMenu.innerHTML = '<ul></ul>';   // clear any existing
+
     savedZips.sort(function(a, b) {         // sort zip codes
         return a.id - b.id;
     });
+
     savedZips.forEach(entry => {            // for each zip, add to location menu list
+
         const newLine = document.createElement('li');
         newLine.classList.add('location');
         newLine.textContent = `${entry.id} -- ${entry.geoData.name} `;
+
         newLine.addEventListener('click', (event) => {
             displayZip(entry.id, entry.geoData);
             fetchAndRender(entry.geoData);
@@ -171,32 +186,37 @@ function renderLocationMenu (savedZips) {
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = `x`;
         deleteBtn.value = entry.id;
-        newLine.append(deleteBtn);
+
         deleteBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             deleteLocation(event.target.value);
         });
 
+        newLine.append(deleteBtn);
         locationMenu.append(newLine);
+
     });
 }
 
 function fetchAndRender (geoData) {
+
     fetchWeatherByLatLon(geoData.lat, geoData.lon)
         .then(weatherData => {
             city = weatherData.name;
-            displayDetails(weatherData)
+            displayDetails(weatherData);
         });
+
     fetchForecastByLatLon(geoData.lat, geoData.lon)
         .then(forecastData => {
             storeForecast(forecastData);
             renderForecastMenu();
         });
+
 }
 
 function getSavedGeoData (zipCode) {
     return fetch(`http://localhost:3000/zipcodes/${zipCode}`)
-    .then (response => response.json())
+    .then (response => response.json());
 }
 
 
@@ -224,23 +244,30 @@ function fetchForecastByLatLon (lat, lon) {
 // STORE FORECAST DATA INTO GLOBAL ARRAY
 
 function storeForecast (forecastData) {
+
     FORECAST_ARY = [
         [], [], [], [], [], []  // clear previous entries
     ];
+
     const today = new Date().getDay();
+
     forecastData.list.forEach((entry) => {
+
         // store forecast by days from today
         const entryDate = new Date(entry.dt * 1000);
         const entryDay = entryDate.getDay();
         let index = entryDay - today;
         if (today > entryDay) {index += 7}
+
         // set index 0 to day of week
         if (FORECAST_ARY[index].length === 0) {
             const entryDayOfWeek = entryDate.toLocaleString('en-US', {weekday: 'long'});
             FORECAST_ARY[index].push(entryDayOfWeek.toLowerCase());
         }
+
         // push forecast data
         FORECAST_ARY[index].push(entry);
+
     });
 }
 
@@ -248,10 +275,13 @@ function storeForecast (forecastData) {
 
 function renderForecastMenu () {
     forecastMenu.innerHTML = '<ul></ul>';    // clear any existing
+
     FORECAST_ARY.forEach((day, index) => {
+
         const nextDay = document.createElement('li');
         nextDay.classList.add('days');
         nextDay.value = index;
+
         switch (index) {
             case 0:
                 nextDay.textContent = 'today';
@@ -263,7 +293,9 @@ function renderForecastMenu () {
                 nextDay.textContent = day[0];
                 break;
         }
+
         forecastMenu.appendChild(nextDay);
+
     });
 }
 
@@ -290,7 +322,6 @@ function deleteLocation (zipCode) {
         fetchSavedLocations()
         .then(savedZips => {
             renderLocationMenu(savedZips);
-            // fetchAndRender(savedZips[0].geoData);
         });
     });
 }
@@ -301,16 +332,18 @@ function deleteLocation (zipCode) {
 ///////////////////////////////////////////////////////
 
 //display the details of the selected day
-const detailsList = document.querySelector('#details ul');
-const detailsCity = document.getElementById('details-city-name');
-const detailsIcon = document.getElementById('details-weather-icon');
-function displayDetails(data){
+
+
+function displayDetails (data) {
     // clear any existing
     detailsList.innerHTML = '';
     detailsCity.innerHTML = '';
     detailsIcon.innerHTML = '';
-    //HTML Elements
-    changeBackground(data.weather[0].id)
+    
+    // set background image
+    changeBackground(data.weather[0].id);
+
+    // create HTML Elements
     const iconImg = document.createElement('p')
     const img = document.createElement('img')
     const windSpeed = document.createElement('li')
@@ -321,28 +354,30 @@ function displayDetails(data){
     const lowTemp = document.createElement('li')
     const humidity = document.createElement('li')
 
-    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-    iconImg.append(img)
-    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`
-    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`
-    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`
-    lowTemp.id = 'loTemp'
-    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`
-    weatherDescription.textContent = data.weather[0].description
-    temperature.textContent = `${Math.round(data.main.temp)} F`
+    // set attributes
+    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    lowTemp.id = 'loTemp';
     temperature.id = 'temp';
+
+    // set values
+    detailsCity.textContent = city
+    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`
+    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`
+    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`
+    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`
+    temperature.textContent = `${Math.round(data.main.temp)} F`
+    weatherDescription.textContent = data.weather[0].description
     windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
 
-    detailsCity.textContent = city;
+    // append elements
+    iconImg.append(img);
     detailsIcon.append(iconImg);
-
     detailsList.append(weatherDescription, temperature, feelsLike, highTemp, lowTemp,humidity, windSpeed);
 };
 
 //Select day from day menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
-    console.log(dayIndex)
     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
     displayDetails(dayForecast);
 });
@@ -367,7 +402,9 @@ function reduceHourlyForecastsToDay(weatherAry) {
     let tempSum = 0;
     let humiditySum = 0;
     let feelsLikeSum = 0;
+
     weatherAryCopy.forEach(entry => {
+
         // add temperature to sum total for averaging
         tempSum += entry.main.temp;
         // find lowest low for day
@@ -380,7 +417,9 @@ function reduceHourlyForecastsToDay(weatherAry) {
         humiditySum += entry.main.humidity;
         // add feels like to sum total for averaging
         feelsLikeSum += entry.main.feels_like;
+
     });
+
     const numEntries = weatherAryCopy.length;
     const tempAvg = tempSum / numEntries;
     const humidityAvg = humiditySum / numEntries;
