@@ -1,11 +1,14 @@
-// GLOBAL VARIABLES
-let city;
-let inputZip;
-let FORECAST_ARY = [
-    [], [], [], [], [], []  // forecast for today + 5 days
+//////////////////////
+// GLOBAL VARIABLES //
+//////////////////////
+
+let CITY;
+let INPUT_ZIP;
+let FORECAST_ARY = [    // holds forecast for today + 5 days
+    [], [], [], [], [], []
 ];
 
-// HTML ELEMENTS
+// HTML elements
 const detailsCity = document.getElementById('details-city-name');
 const detailsIcon = document.getElementById('details-weather-icon');
 const detailsList = document.querySelector('#details ul');
@@ -16,16 +19,16 @@ const locationMenu = document.querySelector('#location-menu');
 const zip = document.querySelector('#zip');
 const zip2 = document.querySelector('#zip2');
 
-
 // hide side menus
 document.getElementById('left').style.visibility = 'hidden';
 document.getElementById('right').style.visibility = 'hidden';
 document.getElementById('main').style.display = 'none';
 
 
-/////////////////////////
-//HTML Element Toggling//
-/////////////////////////
+
+///////////////////////////
+// HTML ELEMENT TOGGLING //
+///////////////////////////
 
 //Controls the HTML elements being displayed. toggleMain starts the page with just a zip code submit
 //form, then switches to the details view once a zip code is subbmitted. toggleMenu switches the visibility 
@@ -57,10 +60,19 @@ function toggleMain () {
     }
 }
 
+function toggleDisplay (element) {
+    if (element.classList.contains('hide')) {
+        element.classList.remove('hide');
+    } else {
+        element.classList.add('hide');
+    }
+}
 
-////////////////////////
-//Zip code submit form//
-////////////////////////
+
+
+/////////////////////
+// ZIP CODE SUBMIT //
+/////////////////////
 
 //Handles zip code form - Takes a zip code and returns the longitude and lattitude. Calls 'storeFavorites' to store 
 //the zip, longitude, and lattitude. Then calls 'latLon' to use the longitude and lattitude data to get the 5 day forecast.
@@ -72,25 +84,23 @@ function zipEntered(e){
     const errorMessage = document.getElementById('errorDisplay');
     const innerErrMessage = document.getElementById('left-bottom');
 
-    inputZip = e.target[0].value;
+    INPUT_ZIP = e.target[0].value;
 
-    if (typeof parseInt(inputZip) !== 'number') {
+    if (typeof parseInt(INPUT_ZIP) !== 'number') {
 
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         innerErrMessage.style.visibility = 'visible';
         innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
-
         setTimeout(function(){
             errorMessage.innerText = '';
             innerErrMessage.style.visibility = 'hidden';
         },2000);
 
-    } else if (inputZip.length !== 5) {
+    } else if (INPUT_ZIP.length !== 5) {
 
         errorMessage.innerText = 'Enter a zip code with 5 Numbers';
         innerErrMessage.style.visibility = 'visible';
         innerErrMessage.innerText = 'Enter a zip code with 5 Numbers';
-
         setTimeout(function(){
             errorMessage.innerText = '';
             innerErrMessage.style.visibility = 'hidden';
@@ -98,71 +108,62 @@ function zipEntered(e){
 
     } else {
 
-        fetchCoordinatesByZip(inputZip)
-
+        fetchCoordinatesByZip(INPUT_ZIP)
         .then(res => {
             if (res.ok) {
                 return res.json();
             }
             throw new Error('Not a valid zip code');
         })
-
         .then (geoData => {
-
             toggleMain();
-            displayZip(inputZip, geoData);
+            displayZip(INPUT_ZIP, geoData);
             fetchAndRender(geoData);
-
             fetchSavedLocations()
             .then(savedZips => {
-                if (!savedZips.find(entry => entry.id === inputZip)) {
+                if (!savedZips.find(entry => entry.id === INPUT_ZIP)) {
                     saveLocation(geoData);
                     savedZips.push({
-                        id: inputZip,
+                        id: INPUT_ZIP,
                         geoData: geoData
                     });
                 }
                 renderLocationMenu(savedZips);
             });
-
         })
-
         .catch (error => {
-
             console.log(error);     // TO-DO: check if handling error like this is ok
             errorMessage.innerText = 'Not a valid Zip Code';
             innerErrMessage.style.visibility = 'visible';
             innerErrMessage.innerText = 'Not a valid Zip Code';
-
             setTimeout(function(){
                 errorMessage.innerText = '';
                 innerErrMessage.style.visibility = 'hidden';
             },2000);
-
         });
     }
 };
 
-function fetchSavedLocations () {
-    return fetch('http://localhost:3000/zipcodes')
-    .then(res => res.json());
-}
 
-function toggleDisplay (element) {
-    if (element.classList.contains('hide')) {
-        element.classList.remove('hide');
-    } else {
-        element.classList.add('hide');
-    }
-}
 
-function displayZip(zipCode, zipData) {
-    locationBtnDiv.innerHTML = '';
-    locationBtnDiv.textContent = zipCode;
+////////////////////
+// MENU RENDERING //
+////////////////////
 
-    if (typeof zipData !== 'undefined') {
-        locationBtnDiv.textContent += ` -- ${zipData.name}`;
-    }
+function fetchAndRender (geoData) {
+
+    fetchWeatherByLatLon(geoData.lat, geoData.lon)
+        .then(weatherData => {
+            CITY = weatherData.name;
+            displayDetails(weatherData);
+        });
+
+    fetchForecastByLatLon(geoData.lat, geoData.lon)
+        .then(forecastData => {
+            storeForecast(forecastData);
+            renderForecastMenu();
+        });
+
 }
 
 function renderLocationMenu (savedZips) {
@@ -198,81 +199,6 @@ function renderLocationMenu (savedZips) {
     });
 }
 
-function fetchAndRender (geoData) {
-
-    fetchWeatherByLatLon(geoData.lat, geoData.lon)
-        .then(weatherData => {
-            city = weatherData.name;
-            displayDetails(weatherData);
-        });
-
-    fetchForecastByLatLon(geoData.lat, geoData.lon)
-        .then(forecastData => {
-            storeForecast(forecastData);
-            renderForecastMenu();
-        });
-
-}
-
-function getSavedGeoData (zipCode) {
-    return fetch(`http://localhost:3000/zipcodes/${zipCode}`)
-    .then (response => response.json());
-}
-
-
-// OPEN WEATHER API CALLS
-
-// gets latitude & longitude using zip code
-function fetchCoordinatesByZip (zipCode) {
-    return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
-}
-
-// gets current weather using latitude & longitude
-function fetchWeatherByLatLon (lat, lon) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
-    .then(res => res.json());
-}
-
-// gets forecasted weather using latitude & longitude
-function fetchForecastByLatLon (lat, lon) {
-    return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
-    .then(res => res.json());
-}
-
-
-
-// STORE FORECAST DATA INTO GLOBAL ARRAY
-
-function storeForecast (forecastData) {
-
-    FORECAST_ARY = [
-        [], [], [], [], [], []  // clear previous entries
-    ];
-
-    const today = new Date().getDay();
-
-    forecastData.list.forEach((entry) => {
-
-        // store forecast by days from today
-        const entryDate = new Date(entry.dt * 1000);
-        const entryDay = entryDate.getDay();
-        let index = entryDay - today;
-        if (today > entryDay) {index += 7}
-
-        // set index 0 to day of week
-        if (FORECAST_ARY[index].length === 0) {
-            const entryDayOfWeek = entryDate.toLocaleString('en-US', {weekday: 'long'});
-            FORECAST_ARY[index].push(entryDayOfWeek.toLowerCase());
-        }
-
-        // push forecast data
-        FORECAST_ARY[index].push(entry);
-
-    });
-}
-
-// RENDER FORECAST MENU WITH DATA
-
 function renderForecastMenu () {
     forecastMenu.innerHTML = '<ul></ul>';    // clear any existing
 
@@ -299,88 +225,41 @@ function renderForecastMenu () {
     });
 }
 
-
-//Stores the location's data in the db.json file to persist the list, and be able to recall the already searched zipcodes.
-function saveLocation (data) {
-    const zipCodeGeoData = {
-        id: data.zip,
-        geoData: data
-    }
-    fetch('http://localhost:3000/zipcodes', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(zipCodeGeoData)
-    });
-}
-
-function deleteLocation (zipCode) {
-    fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'})
-    .then(() => {
-        fetchSavedLocations()
-        .then(savedZips => {
-            renderLocationMenu(savedZips);
-        });
-    });
-}
-
-
-///////////////////////////////////////////////////////
-//Render the info to the day menu and details section//
-///////////////////////////////////////////////////////
-
-//display the details of the selected day
-
-
-function displayDetails (data) {
-    // clear any existing
-    detailsList.innerHTML = '';
-    detailsCity.innerHTML = '';
-    detailsIcon.innerHTML = '';
-    
-    // set background image
-    changeBackground(data.weather[0].id);
-
-    // create HTML Elements
-    const iconImg = document.createElement('p')
-    const img = document.createElement('img')
-    const windSpeed = document.createElement('li')
-    const temperature = document.createElement('li')
-    const weatherDescription = document.createElement('p')
-    const feelsLike = document.createElement('li')
-    const highTemp = document.createElement('li')
-    const lowTemp = document.createElement('li')
-    const humidity = document.createElement('li')
-
-    // set attributes
-    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-    lowTemp.id = 'loTemp';
-    temperature.id = 'temp';
-
-    // set values
-    detailsCity.textContent = city
-    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`
-    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`
-    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`
-    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`
-    temperature.textContent = `${Math.round(data.main.temp)} F`
-    weatherDescription.textContent = data.weather[0].description
-    windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
-
-    // append elements
-    iconImg.append(img);
-    detailsIcon.append(iconImg);
-    detailsList.append(weatherDescription, temperature, feelsLike, highTemp, lowTemp,humidity, windSpeed);
-};
-
-//Select day from day menu
+// Add listener to select day from forecast menu
 forecastMenu.addEventListener('click', e => {
     const dayIndex = e.target.value;
     const dayForecast = reduceHourlyForecastsToDay(FORECAST_ARY[dayIndex]);
     displayDetails(dayForecast);
 });
+
+
+
+////////////////////////////
+// FORECAST DATA HANDLING //
+////////////////////////////
+
+function storeForecast (forecastData) {
+    FORECAST_ARY = [
+        [], [], [], [], [], []  // clear previous entries
+    ];
+
+    const today = new Date().getDay();
+
+    forecastData.list.forEach((entry) => {
+        // store forecast by days from today
+        const entryDate = new Date(entry.dt * 1000);
+        const entryDay = entryDate.getDay();
+        let index = entryDay - today;
+        if (today > entryDay) {index += 7}
+        // set index 0 to day of week
+        if (FORECAST_ARY[index].length === 0) {
+            const entryDayOfWeek = entryDate.toLocaleString('en-US', {weekday: 'long'});
+            FORECAST_ARY[index].push(entryDayOfWeek.toLowerCase());
+        }
+        // push forecast data
+        FORECAST_ARY[index].push(entry);
+    });
+}
 
 function reduceHourlyForecastsToDay(weatherAry) {
 
@@ -443,6 +322,61 @@ function reduceHourlyForecastsToDay(weatherAry) {
     return dayForecast;
 }
 
+
+
+///////////////////////
+// DISPLAY FUNCTIONS //
+///////////////////////
+
+function displayDetails (data) {
+    // clear any existing
+    detailsList.innerHTML = '';
+    detailsCity.innerHTML = '';
+    detailsIcon.innerHTML = '';
+    
+    // set background image
+    changeBackground(data.weather[0].id);
+
+    // create HTML Elements
+    const iconImg = document.createElement('p')
+    const img = document.createElement('img')
+    const windSpeed = document.createElement('li')
+    const temperature = document.createElement('li')
+    const weatherDescription = document.createElement('p')
+    const feelsLike = document.createElement('li')
+    const highTemp = document.createElement('li')
+    const lowTemp = document.createElement('li')
+    const humidity = document.createElement('li')
+
+    // set attributes
+    img.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    lowTemp.id = 'loTemp';
+    temperature.id = 'temp';
+
+    // set values
+    detailsCity.textContent = CITY
+    feelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like)} F`
+    highTemp.textContent = `High: ${Math.round(data.main.temp_max)} F`
+    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`
+    lowTemp.textContent = `Low: ${Math.round(data.main.temp_min)} F`
+    temperature.textContent = `${Math.round(data.main.temp)} F`
+    weatherDescription.textContent = data.weather[0].description
+    windSpeed.textContent = `Wind Speed: ${data.wind.speed} MPH`
+
+    // append elements
+    iconImg.append(img);
+    detailsIcon.append(iconImg);
+    detailsList.append(weatherDescription, temperature, feelsLike, highTemp, lowTemp,humidity, windSpeed);
+};
+
+function displayZip(zipCode, zipData) {
+    locationBtnDiv.innerHTML = '';
+    locationBtnDiv.textContent = zipCode;
+    if (typeof zipData !== 'undefined') {
+        locationBtnDiv.textContent += ` -- ${zipData.name}`;
+    }
+}
+
 //Changes the backgound image of the details based on the weather description
 function changeBackground (id) {
     let img;
@@ -473,4 +407,65 @@ function changeBackground (id) {
         }
     }
     document.getElementById('details').style.backgroundImage = `url("img/${img}")`;
+}
+
+
+
+////////////////
+// DATA CALLS //
+////////////////
+
+// Open Weather API calls
+
+function fetchCoordinatesByZip (zipCode) {      // gets latitude & longitude using zip code
+    return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${API_KEY}`)
+}
+
+function fetchWeatherByLatLon (lat, lon) {      // gets current weather using latitude & longitude
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
+    .then(res => res.json());
+}
+
+function fetchForecastByLatLon (lat, lon) {     // gets forecasted weather using latitude & longitude
+    return fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
+    .then(res => res.json());
+}
+
+// JSON server calls
+
+function fetchSavedLocations () {
+    return fetch('http://localhost:3000/zipcodes')
+    .then(res => res.json());
+}
+
+// BVC : Looks like getSavedGeoData isn't called anywhere, consider deleting
+
+// function getSavedGeoData (zipCode) {
+//     return fetch(`http://localhost:3000/zipcodes/${zipCode}`)
+//     .then (response => response.json());
+// }
+
+function saveLocation (data) {
+    const zipCodeGeoData = {
+        id: data.zip,
+        geoData: data
+    }
+    fetch('http://localhost:3000/zipcodes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(zipCodeGeoData)
+    });
+}
+
+function deleteLocation (zipCode) {
+    fetch (`http://localhost:3000/zipcodes/${zipCode}`, {method: 'DELETE'})
+    .then(() => {
+        fetchSavedLocations()
+        .then(savedZips => {
+            renderLocationMenu(savedZips);
+        });
+    });
 }
