@@ -2,8 +2,6 @@
 
 Bailey Cage, Ben Erkhart, Andy Dziabo
 
-Phase 1 - 080822 East B
-
 ## Description
 
 This app will let a user search the weather for their location.
