@@ -10,7 +10,7 @@ Users will be able to:
 * GET current weather via zip code
 * GET forcasted weather data
 
-To view a demo video of the app visit https://andrewdziabo.dev/ and goto the projects section
+To view a video demo of the app visit https://andrewdziabo.dev/ and goto the projects section
 
 ## Features
 
